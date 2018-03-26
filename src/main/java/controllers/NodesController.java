@@ -14,10 +14,23 @@ public class NodesController {
      * If node id found in the storage - node status change to 'Active' and node ip will be updated.
      * @param ipAddress ip address
      * @param nodeId unique identifier
+     * @return request result
      */
     @RequestMapping("/noderegistration")
-    public String greeting(@RequestParam(value="ip") String ipAddress,
-                         @RequestParam(value="id") String nodeId) {
+    public String nodeRegistration(@RequestParam(value="id") String nodeId,
+                                   @RequestParam(value="ip") String ipAddress) {
         return NodesService.registerNode(nodeId,ipAddress);
+    }
+
+    /**
+     * Handle requests from node.
+     * @param nodeId
+     * @param value
+     * @return request result
+     */
+    @RequestMapping("/nodehandle")
+    public String nodeHandle(@RequestParam(value = "id") String nodeId,
+                            @RequestParam(value = "value") String value){
+        return NodesService.handleNode(nodeId,value);
     }
 }

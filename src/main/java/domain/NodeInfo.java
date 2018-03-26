@@ -5,16 +5,27 @@ public class NodeInfo {
     private Long id;
     private String ipAddress;
     private String networkSSID;
-    private int status;
+    private int statusId;
+    private int nodeTypeId;
+    private String value;
 
     public NodeInfo() {
     }
 
-    public NodeInfo(Long id, String ipAddress, String networkSSID, int status) {
+    public NodeInfo(Long id, String ipAddress, String networkSSID, int statusId) {
         this.id = id;
         this.ipAddress = ipAddress;
         this.networkSSID = networkSSID;
-        this.status = status;
+        this.statusId = statusId;
+    }
+
+    public NodeInfo(Long id, String ipAddress, String networkSSID, int statusId, int nodeTypeId, String value) {
+        this.id = id;
+        this.ipAddress = ipAddress;
+        this.networkSSID = networkSSID;
+        this.statusId = statusId;
+        this.nodeTypeId = nodeTypeId;
+        this.value = value;
     }
 
     public Long getId() {
@@ -41,11 +52,27 @@ public class NodeInfo {
         this.networkSSID = networkSSID;
     }
 
-    public int getStatus() {
-        return status;
+    public int getStatusId() {
+        return statusId;
     }
 
-    public void setStatus(int status) {
-        this.status = status;
+    public void setStatusId(int statusId) {
+        this.statusId = statusId;
+    }
+
+    public int getNodeTypeId() {
+        return nodeTypeId;
+    }
+
+    public void setNodeTypeId(int nodeTypeId) {
+        this.nodeTypeId = nodeTypeId;
+    }
+
+    public String getValue() {
+        return value;
+    }
+
+    public void setValue(String value) {
+        this.value = value;
     }
 }
