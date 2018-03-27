@@ -1,4 +1,4 @@
-package service;
+package com.shouse.restapi.service;
 
 import java.util.Arrays;
 

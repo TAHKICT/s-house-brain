@@ -1,26 +1,24 @@
-package service;
+package com.shouse.restapi.service;
 
-import dao.NodesDao;
-import domain.NodeInfo;
+import com.shouse.restapi.domain.NodeInfoExtended;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import com.shouse.restapi.storage.NodesStorage;
 
+import javax.annotation.PostConstruct;
 import java.util.Map;
 import java.util.stream.Collectors;
 
-/**
- * Class holds logical part.
- */
-public class NodesService {
+@Service
+public class NodesServiceImpl implements NodesService{
 
-    private static Map<Long, NodeInfo> nodeInfoMap;
+    @Autowired
+    NodesStorage nodesStorage;
+
+    private static Map<Long, NodeInfoExtended> nodeInfoMap;
     private static boolean isSynchronized = false;
 
-    /**
-     * Only nodes, which exists in storage can be registered in system as active. The rest will bow out.
-     * @param nodeId
-     * @param ipAddress
-     * @return the result message
-     */
-    public static String registerNode(String nodeId, String ipAddress){
+    public String registerNode(String nodeId, String ipAddress){
         if(nodeId(nodeId) == null)
             return Messages.nodeIdFormatIsNotValid;
 
@@ -31,33 +29,25 @@ public class NodesService {
                     return String.format(Messages.nodeIPAddressIsNotValid, ipAddress);
 
                 nodeInfoMap.get(id).setIpAddress(ipAddress);
-                nodeInfoMap.get(id).setStatusId(NodeStatus.ACTIVE.getStatusCode());
+                nodeInfoMap.get(id).setNodeStatus(NodeStatus.ACTIVE);
                 return Messages.nodeRegistered;
             } else
                 return Messages.nodeNotFound;
     }
 
-    /**
-     * When system starts, nodes map should be token from the storage.
-     */
-    public static void nodeInfoMapSynchronization(){
-        nodeInfoMap = NodesDao.getNodes().stream().collect(
-                Collectors.toMap(NodeInfo::getId, NodeInfo -> NodeInfo)
+    @PostConstruct
+    public void nodeInfoMapSynchronization(){
+        nodeInfoMap = nodesStorage.getNodes().stream().collect(
+                Collectors.toMap(NodeInfoExtended::getId, NodeInfoExtended -> NodeInfoExtended)
         );
 
         isSynchronized = true;
     }
 
-    /**
-     * Handle requests from nodes.
-     * @param nodeId
-     * @param value
-     * @return
-     */
-    public static String handleNode(String nodeId, String value) {
+    public String handleNode(String nodeId, String value) {
         if (!nodeInfoMap.containsKey(nodeId))
             return Messages.nodeNotFound;
-        else if(nodeInfoMap.get(nodeId).getStatusId() == NodeStatus.SWITCHED_OFF.getStatusCode())
+        else if(nodeInfoMap.get(nodeId).getNodeStatus().getStatusCode() == NodeStatus.SWITCHED_OFF.getStatusCode())
             return Messages.nodeIsNotActive;
 
         nodeInfoMap.get(nodeId).setValue(value);
