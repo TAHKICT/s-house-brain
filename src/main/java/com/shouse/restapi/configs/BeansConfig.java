@@ -1,22 +1,21 @@
-package com.shouse.restapi.controllers;
+package com.shouse.restapi.configs;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import com.shouse.restapi.service.NodesService;
 import com.shouse.restapi.service.NodesServiceImpl;
 import com.shouse.restapi.storage.InMemoryStorage;
-import com.shouse.restapi.storage.NodesStorage;
 
 @Configuration
-public class Configurations {
+public class BeansConfig {
 
     @Bean
     public NodesService basicNodesService() {
-        return new NodesServiceImpl();
+        return new NodesServiceImpl(new InMemoryStorage());
     }
 
-    @Bean
-    public NodesStorage nodesStorage() {
-        return new InMemoryStorage();
-    }
+//    @Bean
+//    public NodesStorage nodesStorage() {
+//        return new InMemoryStorage();
+//    }
 }

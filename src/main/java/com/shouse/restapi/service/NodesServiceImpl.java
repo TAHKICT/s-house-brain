@@ -9,14 +9,15 @@ import javax.annotation.PostConstruct;
 import java.util.Map;
 import java.util.stream.Collectors;
 
-@Service
 public class NodesServiceImpl implements NodesService{
 
-    @Autowired
-    NodesStorage nodesStorage;
-
+    private NodesStorage nodesStorage;
     private static Map<Long, NodeInfoExtended> nodeInfoMap;
     private static boolean isSynchronized = false;
+
+    public NodesServiceImpl(NodesStorage nodesStorage) {
+        this.nodesStorage = nodesStorage;
+    }
 
     public String registerNode(String nodeId, String ipAddress){
         if(nodeId(nodeId) == null)
@@ -33,15 +34,6 @@ public class NodesServiceImpl implements NodesService{
                 return Messages.nodeRegistered;
             } else
                 return Messages.nodeNotFound;
-    }
-
-    @PostConstruct
-    public void nodeInfoMapSynchronization(){
-        nodeInfoMap = nodesStorage.getNodes().stream().collect(
-                Collectors.toMap(NodeInfoExtended::getId, NodeInfoExtended -> NodeInfoExtended)
-        );
-
-        isSynchronized = true;
     }
 
     public String handleNode(String nodeId, String value) {
@@ -90,4 +82,12 @@ public class NodesServiceImpl implements NodesService{
         }
     }
 
+    @PostConstruct
+    public void nodeInfoMapSynchronization(){
+        nodeInfoMap = nodesStorage.getNodes().stream().collect(
+                Collectors.toMap(NodeInfoExtended::getId, NodeInfoExtended -> NodeInfoExtended)
+        );
+
+        isSynchronized = true;
+    }
 }
