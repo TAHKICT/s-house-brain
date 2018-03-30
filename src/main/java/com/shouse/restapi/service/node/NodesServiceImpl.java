@@ -1,18 +1,18 @@
-package com.shouse.restapi.service;
+package com.shouse.restapi.service.node;
 
+import com.shouse.restapi.domain.NodeInfo;
 import com.shouse.restapi.domain.NodeInfoExtended;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
+import com.shouse.restapi.service.Messages;
 import com.shouse.restapi.storage.NodesStorage;
 
 import javax.annotation.PostConstruct;
 import java.util.Map;
 import java.util.stream.Collectors;
 
-public class NodesServiceImpl implements NodesService{
+public class NodesServiceImpl implements NodesService {
 
     private NodesStorage nodesStorage;
-    private static Map<Long, NodeInfoExtended> nodeInfoMap;
+    private static Map<Integer, NodeInfoExtended> nodeInfoMap;
     private static boolean isSynchronized = false;
 
     public NodesServiceImpl(NodesStorage nodesStorage) {
@@ -45,6 +45,10 @@ public class NodesServiceImpl implements NodesService{
         nodeInfoMap.get(nodeId).setValue(value);
 
         return Messages.nodeHandledSuccessfully;
+    }
+
+    public Map<Integer, NodeInfoExtended> getNodesMap() {
+        return nodeInfoMap;
     }
 
     private static Long nodeId(String nodeIdString){
@@ -85,7 +89,7 @@ public class NodesServiceImpl implements NodesService{
     @PostConstruct
     public void nodeInfoMapSynchronization(){
         nodeInfoMap = nodesStorage.getNodes().stream().collect(
-                Collectors.toMap(NodeInfoExtended::getId, NodeInfoExtended -> NodeInfoExtended)
+                Collectors.toMap(NodeInfo::getId, NodeInfo -> new NodeInfoExtended(NodeInfo.getId(),NodeInfo.getNodeTypeId(),NodeInfo.getDescription()))
         );
 
         isSynchronized = true;

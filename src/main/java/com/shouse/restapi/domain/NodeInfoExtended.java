@@ -1,6 +1,6 @@
 package com.shouse.restapi.domain;
 
-import com.shouse.restapi.service.NodeStatus;
+import com.shouse.restapi.service.node.NodeStatus;
 
 public class NodeInfoExtended extends NodeInfo {
 
@@ -9,7 +9,11 @@ public class NodeInfoExtended extends NodeInfo {
     private NodeStatus nodeStatus;
     private String value;
 
-    public NodeInfoExtended(Long id, int nodeTypeId, String ipAddress, String networkSSID, NodeStatus nodeStatus, String value) {
+    public NodeInfoExtended(int id, int nodeTypeId, String description) {
+        super(id, nodeTypeId, description);
+    }
+
+    public NodeInfoExtended(int id, int nodeTypeId, String ipAddress, String networkSSID, NodeStatus nodeStatus, String value) {
         super(id, nodeTypeId);
         this.ipAddress = ipAddress;
         this.networkSSID = networkSSID;

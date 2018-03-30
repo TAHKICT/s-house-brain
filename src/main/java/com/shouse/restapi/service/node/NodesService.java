@@ -1,4 +1,8 @@
-package com.shouse.restapi.service;
+package com.shouse.restapi.service.node;
+
+import com.shouse.restapi.domain.NodeInfoExtended;
+
+import java.util.Map;
 
 /**
  * Holds logical part.
@@ -25,4 +29,10 @@ public interface NodesService {
      * @return
      */
     String handleNode(String nodeId, String value);
+
+    /**
+     *
+     * @return map of actual node states
+     */
+    Map<Integer,NodeInfoExtended> getNodesMap();
 }

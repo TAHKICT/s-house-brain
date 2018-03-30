@@ -1,4 +1,4 @@
-package com.shouse.restapi.service;
+package com.shouse.restapi.service.node;
 
 public enum NodeValue {
     OFF ("on"),
