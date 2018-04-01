@@ -26,7 +26,7 @@ public class NodesController {
      * @param nodeId unique identifier
      * @return request result
      */
-    @RequestMapping("/noderegistration")
+    @RequestMapping("/node/noderegistration")
     public String nodeRegistration(@RequestParam(value="id") String nodeId,
                                    @RequestParam(value="ip") String ipAddress,
                                    HttpServletRequest request) {
@@ -42,7 +42,7 @@ public class NodesController {
      * @param value
      * @return request result
      */
-    @RequestMapping("/nodehandle")
+    @RequestMapping("/node/nodehandle")
     public String nodeHandle(@RequestParam(value = "id") String nodeId,
                             @RequestParam(value = "value") String value){
 

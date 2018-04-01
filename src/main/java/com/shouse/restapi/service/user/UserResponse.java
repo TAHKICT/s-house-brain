@@ -1,10 +1,28 @@
 package com.shouse.restapi.service.user;
 
-import java.util.List;
-
 public class UserResponse {
 
-    private int userId;
     private int nodeId;
-    private List<Object> data;
+    private String value;
+
+    public UserResponse(int nodeId, String value) {
+        this.nodeId = nodeId;
+        this.value = value;
+    }
+
+    public int getNodeId() {
+        return nodeId;
+    }
+
+    public void setNodeId(int nodeId) {
+        this.nodeId = nodeId;
+    }
+
+    public String getValue() {
+        return value;
+    }
+
+    public void setValue(String value) {
+        this.value = value;
+    }
 }

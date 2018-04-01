@@ -15,7 +15,7 @@ public enum  NodeStatus {
         this.description = description;
     }
 
-    public NodeStatus getNodeStatusByCode(int statusCode){
+    public static NodeStatus getNodeStatusByCode(int statusCode){
         return Arrays.stream(NodeStatus.values()).filter(nodeState -> nodeState.statusCode == statusCode).findFirst().get();
     }
 

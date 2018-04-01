@@ -1,6 +1,9 @@
 package com.shouse.restapi.domain;
 
+import com.shouse.restapi.service.node.NodeControlType;
+import com.shouse.restapi.service.node.NodeLocation;
 import com.shouse.restapi.service.node.NodeStatus;
+import com.shouse.restapi.service.node.NodeType;
 
 public class NodeInfoExtended extends NodeInfo {
 
@@ -9,16 +12,18 @@ public class NodeInfoExtended extends NodeInfo {
     private NodeStatus nodeStatus;
     private String value;
 
-    public NodeInfoExtended(int id, int nodeTypeId, String description) {
-        super(id, nodeTypeId, description);
+    public NodeInfoExtended(int id, int nodeTypeId, int nodeLocationId, int nodeControlId, String description) {
+        super(id, nodeTypeId, nodeLocationId, nodeControlId, description);
+        this.value = "false";
+        this.nodeStatus = NodeStatus.ACTIVE;
     }
 
-    public NodeInfoExtended(int id, int nodeTypeId, String ipAddress, String networkSSID, NodeStatus nodeStatus, String value) {
-        super(id, nodeTypeId);
-        this.ipAddress = ipAddress;
-        this.networkSSID = networkSSID;
-        this.nodeStatus = nodeStatus;
-        this.value = value;
+    public NodeInfoMessage getNodeInfoMessage(){
+        return new NodeInfoMessage(getId(),
+                NodeType.getNodeTypeById(getNodeTypeId()).getDescription(),
+                NodeLocation.getNodeCategoryById(getNodeLocationId()).getDescription(),
+                new NodeInfoMessageControl(NodeControlType.getNodeControllTypeById(getNodeControlTypeId()).getDescription(),value),
+                getDescription());
     }
 
     public String getIpAddress() {

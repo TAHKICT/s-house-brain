@@ -3,34 +3,39 @@ package com.shouse.restapi.service.node;
 import java.util.Arrays;
 
 public enum NodeType {
-    LIGHT (100, "light switch"),
-    POWER_SOCKET (101, "power socket");
+    LIGHT (100, "light"),
+    POWER_SOCKET (101, "power-socket"),
+    SENSOR(102, "sensor");
 
-    private int nodeTypeId;
-    private String nodeTypeDescription;
+    private int id;
+    private String description;
 
-    NodeType(int nodeTypeId, String nodeTypeDescription) {
-        this.nodeTypeId = nodeTypeId;
-        this.nodeTypeDescription = nodeTypeDescription;
+    NodeType(int id, String description) {
+        this.id = id;
+        this.description = description;
     }
 
-    public NodeType getNodeTypeById(int nodeTypeId){
-        return Arrays.stream(NodeType.values()).filter(nodeType -> nodeType.nodeTypeId == nodeTypeId).findFirst().get();
+    public static NodeType getNodeTypeById(int nodeTypeId){
+        return Arrays.stream(NodeType.values()).filter(nodeType -> nodeType.id == nodeTypeId).findFirst().get();
     }
 
-    public int getNodeTypeId() {
-        return nodeTypeId;
+    public static NodeType getNodeTypeByDescription(String description){
+        return Arrays.stream(NodeType.values()).filter(nodeType -> nodeType.description.equals(description)).findFirst().get();
     }
 
-    public void setNodeTypeId(int nodeTypeId) {
-        this.nodeTypeId = nodeTypeId;
+    public int getId() {
+        return id;
     }
 
-    public String getNodeTypeDescription() {
-        return nodeTypeDescription;
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public String getDescription() {
+        return description;
     }
 
     public void setNodeTypeDescription(String nodeTypeDescription) {
-        this.nodeTypeDescription = nodeTypeDescription;
+        this.description = nodeTypeDescription;
     }
 }

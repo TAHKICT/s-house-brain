@@ -3,13 +3,18 @@ package com.shouse.restapi.service.node;
 import com.shouse.restapi.domain.NodeInfo;
 import com.shouse.restapi.domain.NodeInfoExtended;
 import com.shouse.restapi.service.Messages;
+import com.shouse.restapi.service.user.UsersService;
 import com.shouse.restapi.storage.NodesStorage;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import javax.annotation.PostConstruct;
 import java.util.Map;
 import java.util.stream.Collectors;
 
 public class NodesServiceImpl implements NodesService {
+
+    @Autowired
+    private UsersService usersService;
 
     private NodesStorage nodesStorage;
     private static Map<Integer, NodeInfoExtended> nodeInfoMap;
@@ -20,11 +25,15 @@ public class NodesServiceImpl implements NodesService {
     }
 
     public String registerNode(String nodeId, String ipAddress){
-        if(nodeId(nodeId) == null)
+        if(nodeId == null)
+            return Messages.nodeIdFormatIsNull;
+
+        if(!validNodeId(nodeId))
             return Messages.nodeIdFormatIsNotValid;
 
-            Long id = nodeId(nodeId);
-            if(nodeInfoMap.containsKey(id)) {
+        int id = Integer.valueOf(nodeId);
+
+        if(nodeInfoMap.containsKey(id)) {
 
                 if(!validIP(ipAddress))
                     return String.format(Messages.nodeIPAddressIsNotValid, ipAddress);
@@ -37,12 +46,19 @@ public class NodesServiceImpl implements NodesService {
     }
 
     public String handleNode(String nodeId, String value) {
+        if(nodeId == null)
+            return Messages.nodeIdFormatIsNull;
+
+        if(!validNodeId(nodeId))
+            return Messages.nodeIdFormatIsNotValid;
+
         if (!nodeInfoMap.containsKey(nodeId))
             return Messages.nodeNotFound;
         else if(nodeInfoMap.get(nodeId).getNodeStatus().getStatusCode() == NodeStatus.SWITCHED_OFF.getStatusCode())
             return Messages.nodeIsNotActive;
 
         nodeInfoMap.get(nodeId).setValue(value);
+        usersService.handleNodeChange(Integer.valueOf(nodeId),value);
 
         return Messages.nodeHandledSuccessfully;
     }
@@ -51,12 +67,13 @@ public class NodesServiceImpl implements NodesService {
         return nodeInfoMap;
     }
 
-    private static Long nodeId(String nodeIdString){
+    private static boolean validNodeId(String nodeId){
         try {
-            return Long.parseLong(nodeIdString);
-        }catch (NumberFormatException ex){
-            return null;
+            Integer.valueOf(nodeId);
+        }catch (NumberFormatException e){
+            return false;
         }
+        return true;
     }
 
     private static boolean validIP (String ip) {
@@ -89,7 +106,7 @@ public class NodesServiceImpl implements NodesService {
     @PostConstruct
     public void nodeInfoMapSynchronization(){
         nodeInfoMap = nodesStorage.getNodes().stream().collect(
-                Collectors.toMap(NodeInfo::getId, NodeInfo -> new NodeInfoExtended(NodeInfo.getId(),NodeInfo.getNodeTypeId(),NodeInfo.getDescription()))
+                Collectors.toMap(NodeInfo::getId, NodeInfo -> new NodeInfoExtended(NodeInfo.getId(),NodeInfo.getNodeTypeId(),NodeInfo.getNodeLocationId(),NodeInfo.getNodeControlTypeId(),NodeInfo.getDescription()))
         );
 
         isSynchronized = true;

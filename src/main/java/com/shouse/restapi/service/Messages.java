@@ -12,5 +12,8 @@ public class Messages {
 
     public static String nodeIdFormatIsNotValid = "Node ID format in not valid";
 
+    public static String nodeIdFormatIsNull = "Node ID is null";
+
     public static String nodeIPAddressIsNotValid = "Node IP address %s is not valid";
+
 }
