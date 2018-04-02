@@ -1,9 +1,6 @@
 package com.shouse.restapi.domain;
 
-import com.shouse.restapi.service.node.NodeControlType;
-import com.shouse.restapi.service.node.NodeLocation;
-import com.shouse.restapi.service.node.NodeStatus;
-import com.shouse.restapi.service.node.NodeType;
+import com.shouse.restapi.service.node.*;
 
 public class NodeInfoExtended extends NodeInfo {
 
@@ -14,7 +11,7 @@ public class NodeInfoExtended extends NodeInfo {
 
     public NodeInfoExtended(int id, int nodeTypeId, int nodeLocationId, int nodeControlId, String description) {
         super(id, nodeTypeId, nodeLocationId, nodeControlId, description);
-        this.value = "false";
+        this.value = NodeValue.UNCHECKED;
         this.nodeStatus = NodeStatus.ACTIVE;
     }
 

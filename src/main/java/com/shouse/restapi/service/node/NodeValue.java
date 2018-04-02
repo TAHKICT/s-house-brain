@@ -1,16 +1,8 @@
 package com.shouse.restapi.service.node;
 
-public enum NodeValue {
-    OFF ("on"),
-    ON ("off");
-
-    private String nodeValue;
-
-    NodeValue(String nodeValue) {
-        this.nodeValue = nodeValue;
-    }
-
-    public String getNodeValue() {
-        return nodeValue;
-    }
+public class NodeValue {
+    public static String OFF = "off";
+    public static String ON = "on";
+    public static String CHECKED = "checked";
+    public static String UNCHECKED = "unchecked";
 }
