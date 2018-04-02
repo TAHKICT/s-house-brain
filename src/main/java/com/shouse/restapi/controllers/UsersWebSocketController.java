@@ -10,6 +10,7 @@ import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.handler.annotation.SendTo;
 
 import javax.annotation.PostConstruct;
+import javax.servlet.http.HttpServletResponse;
 
 @Controller
 public class UsersWebSocketController {
@@ -22,7 +23,9 @@ public class UsersWebSocketController {
 
     @MessageMapping("/to-server")
     @SendTo("/to-user/messages")
-    public UserResponse webSocketMessages(UserRequest userRequest) throws Exception {
+    public UserResponse webSocketMessages(UserRequest userRequest, HttpServletResponse response) throws Exception {
+//        response.addHeader("Access-Control-Allow-Origin", "*");
+        response.setHeader("Access-Control-Allow-Origin", "*");
         Thread.sleep(1000); // simulated delay
         return service.handleUserRequest(userRequest);
     }
