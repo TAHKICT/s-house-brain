@@ -16,6 +16,7 @@ import java.util.stream.Collectors;
 
 
 @RestController
+@RequestMapping("/core-rest-api/for-web-application")
 public class UsersController {
 
     private final Logger log = LoggerFactory.getLogger(this.getClass());
@@ -23,12 +24,12 @@ public class UsersController {
     @Autowired
     UsersService usersService;
 
-    @RequestMapping("/user/getactivenodes")
+    @RequestMapping("/get-active-nodes")
     public List<NodeInfoMessage> getActiveNodes() {
         return usersService.getActiveNodes().stream().map(nodeInfoExtended -> nodeInfoExtended.getNodeInfoMessage()).collect(Collectors.toList());
     }
 
-    @RequestMapping("/user/getactivenodes/{nodeTypeDescription}")
+    @RequestMapping("/get-active-nodes/{nodeTypeDescription}")
     public List<NodeInfoMessage> getActiveNodesByType(
             @PathVariable(value="nodeTypeDescription") String nodeTypeDescription,
             HttpServletResponse response) {

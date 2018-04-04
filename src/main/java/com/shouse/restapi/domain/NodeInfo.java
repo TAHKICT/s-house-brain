@@ -72,4 +72,15 @@ public class NodeInfo {
     public void setNodeControlTypeId(int nodeControlTypeId) {
         this.nodeControlTypeId = nodeControlTypeId;
     }
+
+    @Override
+    public String toString() {
+        return "NodeInfo{" +
+                "id=" + id +
+                ", nodeTypeId=" + nodeTypeId +
+                ", nodeLocationId=" + nodeLocationId +
+                ", nodeControlTypeId=" + nodeControlTypeId +
+                ", description='" + description + '\'' +
+                '}';
+    }
 }

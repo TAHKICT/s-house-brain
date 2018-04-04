@@ -1,21 +1,28 @@
 package com.shouse.restapi.service.user;
 
-import com.shouse.restapi.controllers.UsersWebSocketController;
 import com.shouse.restapi.domain.NodeInfoExtended;
 import com.shouse.restapi.service.node.NodeStatus;
 import com.shouse.restapi.service.node.NodeType;
 import com.shouse.restapi.service.node.NodesService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.*;
+import org.springframework.web.client.RestTemplate;
 
+import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
 public class UsersServiceImpl implements UsersService {
 
-    UsersWebSocketController usersWebSocketController;
+    private final Logger log = LoggerFactory.getLogger(this.getClass());
 
     @Autowired
     NodesService nodesService;
+
+    @Autowired
+    RestTemplate restTemplate;
 
     @Override
     public List<NodeInfoExtended> getActiveNodes() {
@@ -48,13 +55,18 @@ public class UsersServiceImpl implements UsersService {
     }
 
     @Override
-    public void setUsersWebSocketController(UsersWebSocketController usersWebSocketController) {
-        this.usersWebSocketController = usersWebSocketController;
-    }
-
-    @Override
     public void handleNodeChange(int nodeId, String value) {
-        usersWebSocketController.fireResponse(new UserResponse(nodeId, value));
+        final String uri = "http://localhost:8282";
+        String message =  "{\"nodeId\":" + nodeId + ",\"value\":" + value + "}";
+
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.APPLICATION_JSON);
+        HttpEntity<String> entity = new HttpEntity<String>(message, headers);
+
+        ResponseEntity<String> response = restTemplate.exchange(uri+"/web-rest-api/for-core-application", HttpMethod.POST, entity, String.class);
+        log.info("UsersServiceImpl. handleNodeChange. " +
+                "nodeId:" + nodeId + ", value:" + value + ". " +
+                "Response: " + response);
     }
 
 }

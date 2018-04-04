@@ -1,6 +1,5 @@
 package com.shouse.restapi.service.user;
 
-import com.shouse.restapi.controllers.UsersWebSocketController;
 import com.shouse.restapi.domain.NodeInfoExtended;
 import com.shouse.restapi.service.node.NodeType;
 
@@ -15,8 +14,6 @@ public interface UsersService {
     public List<NodeInfoExtended> getAllNodes();
 
     public UserResponse handleUserRequest(UserRequest userRequest);
-
-    public void setUsersWebSocketController(UsersWebSocketController usersWebSocketController);
 
     public void handleNodeChange(int nodeId, String value);
 }

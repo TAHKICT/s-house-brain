@@ -24,7 +24,8 @@ public class NodesServiceImpl implements NodesService {
         this.nodesStorage = nodesStorage;
     }
 
-    public String registerNode(String nodeId, String ipAddress){
+    @Override
+    public String handleNode(String nodeId, String value) {
         if(nodeId == null)
             return Messages.nodeIdFormatIsNull;
 
@@ -33,38 +34,40 @@ public class NodesServiceImpl implements NodesService {
 
         int id = Integer.valueOf(nodeId);
 
-        if(nodeInfoMap.containsKey(id)) {
-
-                if(!validIP(ipAddress))
-                    return String.format(Messages.nodeIPAddressIsNotValid, ipAddress);
-
-                nodeInfoMap.get(id).setIpAddress(ipAddress);
-                nodeInfoMap.get(id).setNodeStatus(NodeStatus.ACTIVE);
-                return Messages.nodeRegistered;
-            } else
-                return Messages.nodeNotFound;
-    }
-
-    public String handleNode(String nodeId, String value) {
-        if(nodeId == null)
-            return Messages.nodeIdFormatIsNull;
-
-        if(!validNodeId(nodeId))
-            return Messages.nodeIdFormatIsNotValid;
-
-        if (!nodeInfoMap.containsKey(nodeId))
+        if (!nodeInfoMap.containsKey(id))
             return Messages.nodeNotFound;
-        else if(nodeInfoMap.get(nodeId).getNodeStatus().getStatusCode() == NodeStatus.SWITCHED_OFF.getStatusCode())
+        else if(nodeInfoMap.get(id).getNodeStatus().getStatusCode() == NodeStatus.SWITCHED_OFF.getStatusCode())
             return Messages.nodeIsNotActive;
 
-        nodeInfoMap.get(nodeId).setValue(value);
-        usersService.handleNodeChange(Integer.valueOf(nodeId),value);
+        nodeInfoMap.get(id).setValue(value);
+        usersService.handleNodeChange(id,value);
 
         return Messages.nodeHandledSuccessfully;
     }
 
     public Map<Integer, NodeInfoExtended> getNodesMap() {
         return nodeInfoMap;
+    }
+
+    @Override
+    public String handleAliveRequestFromNode(String nodeId, String ipAddress) {
+        if(nodeId == null)
+            return Messages.nodeIdFormatIsNull;
+
+        if(!validNodeId(nodeId))
+            return Messages.nodeIdFormatIsNotValid;
+
+        if(!validIP(ipAddress))
+            return String.format(Messages.nodeIPAddressIsNotValid, ipAddress);
+
+        int id = Integer.valueOf(nodeId);
+
+        if(nodeInfoMap.containsKey(id)) {
+            nodeInfoMap.get(id).setIpAddress(ipAddress);
+            nodeInfoMap.get(id).setNodeStatus(NodeStatus.ACTIVE);
+            return Messages.nodeRegistered;
+        } else
+            return Messages.nodeNotFound;
     }
 
     private static boolean validNodeId(String nodeId){
@@ -108,7 +111,6 @@ public class NodesServiceImpl implements NodesService {
         nodeInfoMap = nodesStorage.getNodes().stream().collect(
                 Collectors.toMap(NodeInfo::getId, NodeInfo -> new NodeInfoExtended(NodeInfo.getId(),NodeInfo.getNodeTypeId(),NodeInfo.getNodeLocationId(),NodeInfo.getNodeControlTypeId(),NodeInfo.getDescription()))
         );
-
         isSynchronized = true;
     }
 }

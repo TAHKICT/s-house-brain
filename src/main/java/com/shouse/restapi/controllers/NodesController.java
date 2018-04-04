@@ -11,6 +11,7 @@ import com.shouse.restapi.service.node.NodesService;
 import javax.servlet.http.HttpServletRequest;
 
 @RestController
+@RequestMapping("/core-rest-api/for-nodes")
 public class NodesController {
 
     private final Logger log = LoggerFactory.getLogger(this.getClass());
@@ -19,35 +20,29 @@ public class NodesController {
     NodesService service;
 
     /**
-     * Method gets information about new incoming node. Every node has it's description in the storage.
-     * If node id is not recognized - node doesn't connect to the smart system.
-     * If node id found in the storage - node status change to 'Active' and node ip will be updated.
-     * @param ipAddress ip address
-     * @param nodeId unique identifier
-     * @return request result
-     */
-    @RequestMapping("/node/noderegistration")
-    public String nodeRegistration(@RequestParam(value="id") String nodeId,
-                                   @RequestParam(value="ip") String ipAddress,
-                                   HttpServletRequest request) {
-
-        String result = service.registerNode(nodeId,ipAddress);
-        log.info("Node registration. NodeId: {}, ip address: {}. Result: {}", nodeId, ipAddress, result);
-        return result;
-    }
-
-    /**
      * Handle requests from node.
      * @param nodeId
      * @param value
      * @return request result
      */
-    @RequestMapping("/node/nodehandle")
-    public String nodeHandle(@RequestParam(value = "id") String nodeId,
-                            @RequestParam(value = "value") String value){
+    @RequestMapping("/request-from-node")
+    public String handleRequestFromNode(@RequestParam(value = "id") String nodeId,
+                                        @RequestParam(value = "value") String value){
 
         String result = service.handleNode(nodeId,value);
         log.info("Handle request from node. NodeId: {}, value: {}. Result: {}", nodeId, result);
         return result;
+    }
+
+    /**
+     * Method gets alive message from node. Every node has it's description in the storage.
+     * If node ID is not recognized - node will not connect to the smart system.
+     * If node ID found in the storage - node status change to 'Active' and node ip will be updated.
+     * @param nodeId unique identifier
+     * @return request result
+     */
+    @RequestMapping("/alive-request-from-node")
+    public String handleAliveRequestFromNode(@RequestParam(value = "id") String nodeId){
+        return service.handleAliveRequestFromNode(nodeId,"0.0.0.0");
     }
 }

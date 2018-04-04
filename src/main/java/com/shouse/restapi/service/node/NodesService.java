@@ -8,15 +8,6 @@ import java.util.Map;
  * Holds logical part.
  */
 public interface NodesService {
-
-    /**
-     * Only nodes, which exists in storage can be registered in system as active. The rest will bow out.
-     * @param nodeId
-     * @param ipAddress
-     * @return the result message
-     */
-    String registerNode(String nodeId, String ipAddress);
-
     /**
      * When system starts, nodes map should be token from the storage.
      */
@@ -31,8 +22,14 @@ public interface NodesService {
     String handleNode(String nodeId, String value);
 
     /**
-     *
      * @return map of actual node states
      */
     Map<Integer,NodeInfoExtended> getNodesMap();
+
+    /**
+     * Nodes regularly send alive requests. System should know when node is active or not.
+     * @param nodeId
+     * @return
+     */
+    String handleAliveRequestFromNode(String nodeId,  String ipAddress);
 }

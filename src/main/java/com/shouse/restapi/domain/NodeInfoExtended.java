@@ -54,4 +54,14 @@ public class NodeInfoExtended extends NodeInfo {
     public void setValue(String value) {
         this.value = value;
     }
+
+    @Override
+    public String toString() {
+        return "NodeInfoExtended{" +
+                "ipAddress='" + ipAddress + '\'' +
+                ", networkSSID='" + networkSSID + '\'' +
+                ", nodeStatus=" + nodeStatus +
+                ", value='" + value + '\'' +
+                '}';
+    }
 }
