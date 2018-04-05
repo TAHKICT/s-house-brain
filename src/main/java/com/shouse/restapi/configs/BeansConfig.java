@@ -1,7 +1,7 @@
 package com.shouse.restapi.configs;
 
-import com.shouse.restapi.service.user.UsersService;
-import com.shouse.restapi.service.user.UsersServiceImpl;
+import com.shouse.restapi.service.client.ClientsService;
+import com.shouse.restapi.service.client.ClientsServiceImpl;
 import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -19,8 +19,8 @@ public class BeansConfig {
     }
 
     @Bean
-    public UsersService usersService(){
-        return new UsersServiceImpl();
+    public ClientsService usersService(){
+        return new ClientsServiceImpl();
     }
 
     @Bean

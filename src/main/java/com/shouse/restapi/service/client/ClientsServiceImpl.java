@@ -1,4 +1,4 @@
-package com.shouse.restapi.service.user;
+package com.shouse.restapi.service.client;
 
 import com.shouse.restapi.domain.NodeInfoExtended;
 import com.shouse.restapi.service.node.NodeStatus;
@@ -10,11 +10,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.*;
 import org.springframework.web.client.RestTemplate;
 
-import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public class UsersServiceImpl implements UsersService {
+public class ClientsServiceImpl implements ClientsService {
 
     private final Logger log = LoggerFactory.getLogger(this.getClass());
 
@@ -31,6 +30,8 @@ public class UsersServiceImpl implements UsersService {
 
     @Override
     public List<NodeInfoExtended> getActiveNodes(NodeType nodeType) {
+        log.info("ClientsServiceImpl. getActiveNodes. " + nodeType);
+        System.out.println(nodesService.getNodesMap());
         return nodesService.getNodesMap().values().stream()
                 .filter(e -> e.getNodeStatus().getStatusCode() == NodeStatus.ACTIVE.getStatusCode()
                 && e.getNodeTypeId() == nodeType.getId())
@@ -43,19 +44,22 @@ public class UsersServiceImpl implements UsersService {
     }
 
     @Override
-    public UserResponse handleUserRequest(UserRequest userRequest) {
-        NodeInfoExtended currentNode = getActiveNodes().stream().filter(node -> node.getId() == userRequest.getNodeId()).findFirst().get();
-
-        if(userRequest.getValue().isEmpty())
-            return new UserResponse(userRequest.getNodeId(),currentNode.getValue());
-        else {
-            currentNode.setValue(userRequest.getValue());
-            return new UserResponse(userRequest.getNodeId(), currentNode.getValue());
-        }
+    public ClientResponse handleRequestFromClient(ClientRequest clientRequest) {
+        log.info("ClientsServiceImpl. handleRequestFromClient. " + clientRequest);
+        NodeInfoExtended currentNode = getActiveNodes().stream().filter(node -> node.getId() == clientRequest.getNodeId()).findFirst().get();
+        nodesService.getNodesMap().get(clientRequest.getNodeId()).setValue(clientRequest.getValue());
+        System.out.println(nodesService.getNodesMap());
+        return new ClientResponse(clientRequest.getNodeId(), currentNode.getValue());
+//        if(clientRequest.getValue().isEmpty())
+//            return new ClientResponse(clientRequest.getNodeId(),currentNode.getValue());
+//        else {
+//            currentNode.setValue(clientRequest.getValue());
+//            return new ClientResponse(clientRequest.getNodeId(), currentNode.getValue());
+//        }
     }
 
     @Override
-    public void handleNodeChange(int nodeId, String value) {
+    public void sendNodeChangeRequestToClient(int nodeId, String value) {
         final String uri = "http://localhost:8282";
         String message =  "{\"nodeId\":" + nodeId + ",\"value\":" + value + "}";
 
@@ -64,7 +68,7 @@ public class UsersServiceImpl implements UsersService {
         HttpEntity<String> entity = new HttpEntity<String>(message, headers);
 
         ResponseEntity<String> response = restTemplate.exchange(uri+"/web-rest-api/for-core-application", HttpMethod.POST, entity, String.class);
-        log.info("UsersServiceImpl. handleNodeChange. " +
+        log.info("ClientsServiceImpl. sendNodeChangeRequestToClient. " +
                 "nodeId:" + nodeId + ", value:" + value + ". " +
                 "Response: " + response);
     }

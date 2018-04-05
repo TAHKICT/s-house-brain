@@ -2,11 +2,14 @@ package com.shouse.restapi.controllers;
 
 import com.shouse.restapi.domain.NodeInfoMessage;
 import com.shouse.restapi.service.node.NodeType;
-import com.shouse.restapi.service.user.UsersService;
+import com.shouse.restapi.service.client.ClientRequest;
+import com.shouse.restapi.service.client.ClientResponse;
+import com.shouse.restapi.service.client.ClientsService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -17,16 +20,16 @@ import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/core-rest-api/for-web-application")
-public class UsersController {
+public class WebApplicationController {
 
     private final Logger log = LoggerFactory.getLogger(this.getClass());
 
     @Autowired
-    UsersService usersService;
+    ClientsService clientsService;
 
     @RequestMapping("/get-active-nodes")
     public List<NodeInfoMessage> getActiveNodes() {
-        return usersService.getActiveNodes().stream().map(nodeInfoExtended -> nodeInfoExtended.getNodeInfoMessage()).collect(Collectors.toList());
+        return clientsService.getActiveNodes().stream().map(nodeInfoExtended -> nodeInfoExtended.getNodeInfoMessage()).collect(Collectors.toList());
     }
 
     @RequestMapping("/get-active-nodes/{nodeTypeDescription}")
@@ -34,8 +37,15 @@ public class UsersController {
             @PathVariable(value="nodeTypeDescription") String nodeTypeDescription,
             HttpServletResponse response) {
         response.setHeader("Access-Control-Allow-Origin", "*");
-        log.info("getActiveNodesByType. nodeTypeDescription:" + nodeTypeDescription);
-        return usersService.getActiveNodes(NodeType.getNodeTypeByDescription(nodeTypeDescription)).stream().map(nodeInfoExtended -> nodeInfoExtended.getNodeInfoMessage()).collect(Collectors.toList());
+        log.info("WebApplicationController. getActiveNodesByType. nodeTypeDescription:" + nodeTypeDescription);
+        return clientsService.getActiveNodes(NodeType.getNodeTypeByDescription(nodeTypeDescription)).stream().map(nodeInfoExtended -> nodeInfoExtended.getNodeInfoMessage()).collect(Collectors.toList());
     }
+
+    @RequestMapping("/web-application-event")
+    public ClientResponse handleRequestFromWebApplication(@RequestBody ClientRequest clientRequest) {
+        log.info("WebApplicationController. handleRequestFromWebApplication. :" + clientRequest);
+        return clientsService.handleRequestFromClient(clientRequest);
+    }
+
 
 }

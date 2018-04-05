@@ -1,11 +1,11 @@
-package com.shouse.restapi.service.user;
+package com.shouse.restapi.service.client;
 
-public class UserRequest {
+public class ClientResponse {
 
     private int nodeId;
     private String value;
 
-    public UserRequest(int nodeId, String value) {
+    public ClientResponse(int nodeId, String value) {
         this.nodeId = nodeId;
         this.value = value;
     }

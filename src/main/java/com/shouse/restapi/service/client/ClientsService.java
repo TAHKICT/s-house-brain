@@ -1,11 +1,11 @@
-package com.shouse.restapi.service.user;
+package com.shouse.restapi.service.client;
 
 import com.shouse.restapi.domain.NodeInfoExtended;
 import com.shouse.restapi.service.node.NodeType;
 
 import java.util.List;
 
-public interface UsersService {
+public interface ClientsService {
 
     public List<NodeInfoExtended> getActiveNodes();
 
@@ -13,7 +13,7 @@ public interface UsersService {
 
     public List<NodeInfoExtended> getAllNodes();
 
-    public UserResponse handleUserRequest(UserRequest userRequest);
+    public ClientResponse handleRequestFromClient(ClientRequest clientRequest);
 
-    public void handleNodeChange(int nodeId, String value);
+    public void sendNodeChangeRequestToClient(int nodeId, String value);
 }

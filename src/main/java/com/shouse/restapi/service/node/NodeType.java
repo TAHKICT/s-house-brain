@@ -38,4 +38,12 @@ public enum NodeType {
     public void setNodeTypeDescription(String nodeTypeDescription) {
         this.description = nodeTypeDescription;
     }
+
+    @Override
+    public String toString() {
+        return "NodeType{" +
+                "id=" + id +
+                ", description='" + description + '\'' +
+                '}';
+    }
 }

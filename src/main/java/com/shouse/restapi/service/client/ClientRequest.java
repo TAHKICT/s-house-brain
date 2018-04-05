@@ -1,11 +1,13 @@
-package com.shouse.restapi.service.user;
+package com.shouse.restapi.service.client;
 
-public class UserResponse {
+public class ClientRequest {
 
     private int nodeId;
     private String value;
 
-    public UserResponse(int nodeId, String value) {
+    public ClientRequest() {}
+
+    public ClientRequest(int nodeId, String value) {
         this.nodeId = nodeId;
         this.value = value;
     }
@@ -24,5 +26,13 @@ public class UserResponse {
 
     public void setValue(String value) {
         this.value = value;
+    }
+
+    @Override
+    public String toString() {
+        return "ClientRequest{" +
+                "nodeId=" + nodeId +
+                ", value='" + value + '\'' +
+                '}';
     }
 }
