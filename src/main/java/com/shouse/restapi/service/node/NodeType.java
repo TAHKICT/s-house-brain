@@ -1,6 +1,8 @@
 package com.shouse.restapi.service.node;
 
 import java.util.Arrays;
+import java.util.List;
+import java.util.stream.Collectors;
 
 public enum NodeType {
     LIGHT (100, "light"),
@@ -8,11 +10,11 @@ public enum NodeType {
     SENSOR(102, "sensor");
 
     private int id;
-    private String description;
+    private String name;
 
-    NodeType(int id, String description) {
+    NodeType(int id, String name) {
         this.id = id;
-        this.description = description;
+        this.name = name;
     }
 
     public static NodeType getNodeTypeById(int nodeTypeId){
@@ -20,30 +22,26 @@ public enum NodeType {
     }
 
     public static NodeType getNodeTypeByDescription(String description){
-        return Arrays.stream(NodeType.values()).filter(nodeType -> nodeType.description.equals(description)).findFirst().get();
+        return Arrays.stream(NodeType.values()).filter(nodeType -> nodeType.name.equals(description)).findFirst().get();
     }
 
     public int getId() {
         return id;
     }
 
-    public void setId(int id) {
-        this.id = id;
+    public String getName() {
+        return name;
     }
 
-    public String getDescription() {
-        return description;
-    }
-
-    public void setNodeTypeDescription(String nodeTypeDescription) {
-        this.description = nodeTypeDescription;
+    public static List<String> getNames(){
+        return Arrays.asList(values()).stream().map(e -> e.name).collect(Collectors.toList());
     }
 
     @Override
     public String toString() {
         return "NodeType{" +
                 "id=" + id +
-                ", description='" + description + '\'' +
+                ", name='" + name + '\'' +
                 '}';
     }
 }

@@ -1,6 +1,7 @@
 package com.shouse.restapi.controllers;
 
 import com.shouse.restapi.domain.NodeInfoMessage;
+import com.shouse.restapi.service.client.ClientRequestGetNodes;
 import com.shouse.restapi.service.node.NodeType;
 import com.shouse.restapi.service.client.ClientRequest;
 import com.shouse.restapi.service.client.ClientResponse;
@@ -27,9 +28,21 @@ public class WebApplicationController {
     @Autowired
     ClientsService clientsService;
 
+    @RequestMapping("/get-menu-sort-types")
+    public List<String> getMenuSortTypes(){
+        return clientsService.getMenuSortTypes();
+    }
+
+    @RequestMapping("/get-menu-items/{sortType}")
+    public List<String> getNamesOfMenuItems(@PathVariable(value="sortType") String sortType,HttpServletResponse response){
+        response.setHeader("Access-Control-Allow-Origin", "*");
+        return clientsService.getNamesOfMenuItems(sortType);
+    }
+
     @RequestMapping("/get-active-nodes")
-    public List<NodeInfoMessage> getActiveNodes() {
-        return clientsService.getActiveNodes().stream().map(nodeInfoExtended -> nodeInfoExtended.getNodeInfoMessage()).collect(Collectors.toList());
+    public List<NodeInfoMessage> getActiveNodes(@RequestBody ClientRequestGetNodes clientRequestGetNodes,HttpServletResponse response) {
+        response.setHeader("Access-Control-Allow-Origin", "*");
+        return clientsService.getActiveNodes(clientRequestGetNodes).stream().map(nodeInfoExtended -> nodeInfoExtended.getNodeInfoMessage()).collect(Collectors.toList());
     }
 
     @RequestMapping("/get-active-nodes/{nodeTypeDescription}")
@@ -46,6 +59,8 @@ public class WebApplicationController {
         log.info("WebApplicationController. handleRequestFromWebApplication. :" + clientRequest);
         return clientsService.handleRequestFromClient(clientRequest);
     }
+
+
 
 
 }

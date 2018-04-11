@@ -16,4 +16,6 @@ public class Messages {
 
     public static String nodeIPAddressIsNotValid = "Node IP address %s is not valid";
 
+    public static String incorrectMenuSortTypeName = "Incorrect menu sort type name: %s";
+
 }

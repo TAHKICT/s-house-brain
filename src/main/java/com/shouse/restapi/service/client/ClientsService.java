@@ -7,7 +7,13 @@ import java.util.List;
 
 public interface ClientsService {
 
+    public List<String> getMenuSortTypes();
+
+    public List<String> getNamesOfMenuItems(String sortType);
+
     public List<NodeInfoExtended> getActiveNodes();
+
+    public List<NodeInfoExtended> getActiveNodes(ClientRequestGetNodes clientRequestGetNodes);
 
     public List<NodeInfoExtended> getActiveNodes(NodeType nodeType);
 

@@ -17,8 +17,8 @@ public class NodeInfoExtended extends NodeInfo {
 
     public NodeInfoMessage getNodeInfoMessage(){
         return new NodeInfoMessage(getId(),
-                NodeType.getNodeTypeById(getNodeTypeId()).getDescription(),
-                NodeLocation.getNodeCategoryById(getNodeLocationId()).getDescription(),
+                NodeType.getNodeTypeById(getNodeTypeId()).getName(),
+                NodeLocation.getNodeLocationById(getNodeLocationId()).getName(),
                 new NodeInfoMessageControl(NodeControlType.getNodeControllTypeById(getNodeControlTypeId()).getDescription(),value),
                 getDescription());
     }
