@@ -80,17 +80,17 @@ public class ClientsServiceImpl implements ClientsService {
     }
 
     @Override
-    public ClientResponse handleRequestFromClient(ClientRequest clientRequest) {
-        log.info("ClientsServiceImpl. handleRequestFromClient. " + clientRequest);
-        NodeInfoExtended currentNode = getActiveNodes().stream().filter(node -> node.getId() == clientRequest.getNodeId()).findFirst().get();
-        nodesService.getNodesMap().get(clientRequest.getNodeId()).setValue(clientRequest.getValue());
+    public ClientResponse handleRequestFromClient(RequestFromClientNodeParamChange requestFromClientNodeParamChange) {
+        log.info("ClientsServiceImpl. handleRequestFromClient. " + requestFromClientNodeParamChange);
+        NodeInfoExtended currentNode = getActiveNodes().stream().filter(node -> node.getId() == requestFromClientNodeParamChange.getNodeId()).findFirst().get();
+        nodesService.getNodesMap().get(requestFromClientNodeParamChange.getNodeId()).setValue(requestFromClientNodeParamChange.getValue());
         System.out.println(nodesService.getNodesMap());
-        return new ClientResponse(clientRequest.getNodeId(), currentNode.getValue());
-//        if(clientRequest.getValue().isEmpty())
-//            return new ClientResponse(clientRequest.getNodeId(),currentNode.getValue());
+        return new ClientResponse(requestFromClientNodeParamChange.getNodeId(), currentNode.getValue());
+//        if(requestFromClientNodeParamChange.getValue().isEmpty())
+//            return new ClientResponse(requestFromClientNodeParamChange.getNodeId(),currentNode.getValue());
 //        else {
-//            currentNode.setValue(clientRequest.getValue());
-//            return new ClientResponse(clientRequest.getNodeId(), currentNode.getValue());
+//            currentNode.setValue(requestFromClientNodeParamChange.getValue());
+//            return new ClientResponse(requestFromClientNodeParamChange.getNodeId(), currentNode.getValue());
 //        }
     }
 

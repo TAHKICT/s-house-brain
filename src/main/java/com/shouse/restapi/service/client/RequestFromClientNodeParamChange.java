@@ -1,13 +1,13 @@
 package com.shouse.restapi.service.client;
 
-public class ClientRequest {
+public class RequestFromClientNodeParamChange {
 
     private int nodeId;
     private String value;
 
-    public ClientRequest() {}
+    public RequestFromClientNodeParamChange() {}
 
-    public ClientRequest(int nodeId, String value) {
+    public RequestFromClientNodeParamChange(int nodeId, String value) {
         this.nodeId = nodeId;
         this.value = value;
     }
@@ -30,7 +30,7 @@ public class ClientRequest {
 
     @Override
     public String toString() {
-        return "ClientRequest{" +
+        return "RequestFromClientNodeParamChange{" +
                 "nodeId=" + nodeId +
                 ", value='" + value + '\'' +
                 '}';

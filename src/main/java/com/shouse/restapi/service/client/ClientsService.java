@@ -19,7 +19,7 @@ public interface ClientsService {
 
     public List<NodeInfoExtended> getAllNodes();
 
-    public ClientResponse handleRequestFromClient(ClientRequest clientRequest);
+    public ClientResponse handleRequestFromClient(RequestFromClientNodeParamChange requestFromClientNodeParamChange);
 
     public void sendNodeChangeRequestToClient(int nodeId, String value);
 }
