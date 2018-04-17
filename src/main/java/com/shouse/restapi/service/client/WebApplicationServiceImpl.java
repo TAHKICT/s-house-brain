@@ -105,30 +105,19 @@ public class WebApplicationServiceImpl implements WebApplicationService {
     }
 
     @Override
-    public ClientResponse handleRequestFromClient(RequestFromClientNodeParamChange requestFromClientNodeParamChange) {
-        log.info("WebApplicationServiceImpl. handleRequestFromClient. " + requestFromClientNodeParamChange);
-        NodeInfoExtended currentNode = getActiveNodes().stream().filter(node -> node.getId() == requestFromClientNodeParamChange.getNodeId()).findFirst().get();
-        nodesService.getNodesMap().get(requestFromClientNodeParamChange.getNodeId()).setValue(requestFromClientNodeParamChange.getValue());
+    public ClientResponse handleRequestFromClient(NodeParamChangeEvent nodeParamChangeEvent) {
+        log.info("WebApplicationServiceImpl. handleRequestFromClient. " + nodeParamChangeEvent);
+        NodeInfoExtended currentNode = getActiveNodes().stream().filter(node -> node.getId() == nodeParamChangeEvent.getNodeId()).findFirst().get();
+        nodesService.getNodesMap().get(nodeParamChangeEvent.getNodeId()).setValue(nodeParamChangeEvent.getValue());
         System.out.println(nodesService.getNodesMap());
-        return new ClientResponse(requestFromClientNodeParamChange.getNodeId(), currentNode.getValue());
-//        if(requestFromClientNodeParamChange.getValue().isEmpty())
-//            return new ClientResponse(requestFromClientNodeParamChange.getNodeId(),currentNode.getValue());
-//        else {
-//            currentNode.setValue(requestFromClientNodeParamChange.getValue());
-//            return new ClientResponse(requestFromClientNodeParamChange.getNodeId(), currentNode.getValue());
-//        }
+        return new ClientResponse(nodeParamChangeEvent.getNodeId(), currentNode.getValue());
     }
 
     @Override
     public void sendNodeChangeRequestToClient(int nodeId, String value) {
         final String uri = "http://localhost:8282";
-        String message =  "{\"nodeId\":" + nodeId + ",\"value\":" + value + "}";
+        ResponseEntity<String> response = restTemplate.postForEntity(uri+"/web-rest-api/for-core-application",new NodeParamChangeEvent(nodeId,value), String.class);
 
-        HttpHeaders headers = new HttpHeaders();
-        headers.setContentType(MediaType.APPLICATION_JSON);
-        HttpEntity<String> entity = new HttpEntity<String>(message, headers);
-
-        ResponseEntity<String> response = restTemplate.exchange(uri+"/web-rest-api/for-core-application", HttpMethod.POST, entity, String.class);
         log.info("WebApplicationServiceImpl. sendNodeChangeRequestToClient. " +
                 "nodeId:" + nodeId + ", value:" + value + ". " +
                 "Response: " + response);

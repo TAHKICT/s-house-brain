@@ -2,9 +2,9 @@ package com.shouse.restapi.controllers;
 
 import com.shouse.restapi.domain.NodeInfoMessage;
 import com.shouse.restapi.service.client.ClientRequestGetNodes;
+import com.shouse.restapi.service.client.NodeParamChangeEvent;
 import com.shouse.restapi.service.client.WebApplicationService;
 import com.shouse.restapi.service.node.NodeType;
-import com.shouse.restapi.service.client.RequestFromClientNodeParamChange;
 import com.shouse.restapi.service.client.ClientResponse;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -61,13 +61,13 @@ public class WebApplicationController {
 
     /**
      *  Handle request from web client about changing node params.
-     * @param requestFromClientNodeParamChange
+     * @param nodeParamChangeEvent
      * @return
      */
     @RequestMapping("/content/node-parameter-change")
-    public ClientResponse handleNodeParameterChange(@RequestBody RequestFromClientNodeParamChange requestFromClientNodeParamChange) {
-        log.info("WebApplicationController. handleRequestFromWebApplication. :" + requestFromClientNodeParamChange);
-        return webApplicationService.handleRequestFromClient(requestFromClientNodeParamChange);
+    public ClientResponse handleNodeParameterChange(@RequestBody NodeParamChangeEvent nodeParamChangeEvent) {
+        log.info("WebApplicationController. handleRequestFromWebApplication. :" + nodeParamChangeEvent);
+        return webApplicationService.handleRequestFromClient(nodeParamChangeEvent);
     }
 
     @RequestMapping("/get-active-nodes/{nodeTypeDescription}")

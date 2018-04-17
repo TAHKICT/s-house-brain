@@ -11,7 +11,7 @@ public class NodeInfoExtended extends NodeInfo {
 
     public NodeInfoExtended(int id, int nodeTypeId, int nodeLocationId, int nodeControlId, String description) {
         super(id, nodeTypeId, nodeLocationId, nodeControlId, description);
-        this.value = NodeValue.UNCHECKED;
+        this.value = NodeValue.CHECKED;
         this.nodeStatus = NodeStatus.ACTIVE;
     }
 
