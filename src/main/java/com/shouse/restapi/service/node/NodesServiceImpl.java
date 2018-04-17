@@ -3,7 +3,7 @@ package com.shouse.restapi.service.node;
 import com.shouse.restapi.domain.NodeInfo;
 import com.shouse.restapi.domain.NodeInfoExtended;
 import com.shouse.restapi.service.Messages;
-import com.shouse.restapi.service.client.ClientsService;
+import com.shouse.restapi.service.client.WebApplicationService;
 import com.shouse.restapi.storage.NodesStorage;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -14,7 +14,7 @@ import java.util.stream.Collectors;
 public class NodesServiceImpl implements NodesService {
 
     @Autowired
-    private ClientsService clientsService;
+    private WebApplicationService webApplicationService;
 
     private NodesStorage nodesStorage;
     private static Map<Integer, NodeInfoExtended> nodeInfoMap;
@@ -40,7 +40,7 @@ public class NodesServiceImpl implements NodesService {
             return Messages.nodeIsNotActive;
 
         nodeInfoMap.get(id).setValue(value);
-        clientsService.sendNodeChangeRequestToClient(id,value);
+        webApplicationService.sendNodeChangeRequestToClient(id,value);
 
         return Messages.nodeHandledSuccessfully;
     }

@@ -15,7 +15,7 @@ import org.springframework.web.client.RestTemplate;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public class ClientsServiceImpl implements ClientsService {
+public class WebApplicationServiceImpl implements WebApplicationService {
 
     private final Logger log = LoggerFactory.getLogger(this.getClass());
 
@@ -43,6 +43,31 @@ public class ClientsServiceImpl implements ClientsService {
     }
 
     @Override
+    public List<NodeInfoExtended> getNodes(ClientRequestGetNodes clientRequestGetNodes) {
+        if (clientRequestGetNodes.getType().equals(ClientMenuSortType.TYPE.getName()))
+            return nodesService.getNodesMap().values().stream()
+                    .filter(e -> e.getNodeStatus().getStatusCode() == NodeStatus.ACTIVE.getStatusCode()
+                            && e.getNodeTypeId() == NodeType.getNodeTypeByDescription(clientRequestGetNodes.getName()).getId())
+                    .collect(Collectors.toList());
+        else if(clientRequestGetNodes.getType().equals(ClientMenuSortType.LOCATION.getName()))
+            return nodesService.getNodesMap().values().stream()
+                    .filter(e -> {
+                        if(clientRequestGetNodes.isActiveOnly() && e.getNodeStatus().getStatusCode() == NodeStatus.ACTIVE.getStatusCode()
+                                && e.getNodeLocationId() == NodeLocation.getNodeLocationByName(clientRequestGetNodes.getName()).getId())
+                            return true;
+
+                        if(!clientRequestGetNodes.isActiveOnly() && e.getNodeLocationId() == NodeLocation.getNodeLocationByName(clientRequestGetNodes.getName()).getId())
+                            return true;
+
+                        return false;
+                    })
+                    .collect(Collectors.toList());
+
+        log.error("getActiveNodes. clientRequestGetNodes.getType()=" + clientRequestGetNodes.getType() + " don't match.");
+        return null;
+    }
+
+    @Override
     public List<NodeInfoExtended> getActiveNodes() {
         return nodesService.getNodesMap().values().stream().filter(e -> e.getNodeStatus().getStatusCode() == NodeStatus.ACTIVE.getStatusCode()).collect(Collectors.toList());
     }
@@ -66,7 +91,7 @@ public class ClientsServiceImpl implements ClientsService {
 
     @Override
     public List<NodeInfoExtended> getActiveNodes(NodeType nodeType) {
-        log.info("ClientsServiceImpl. getActiveNodes. " + nodeType);
+        log.info("WebApplicationServiceImpl. getActiveNodes. " + nodeType);
         System.out.println(nodesService.getNodesMap());
         return nodesService.getNodesMap().values().stream()
                 .filter(e -> e.getNodeStatus().getStatusCode() == NodeStatus.ACTIVE.getStatusCode()
@@ -81,7 +106,7 @@ public class ClientsServiceImpl implements ClientsService {
 
     @Override
     public ClientResponse handleRequestFromClient(RequestFromClientNodeParamChange requestFromClientNodeParamChange) {
-        log.info("ClientsServiceImpl. handleRequestFromClient. " + requestFromClientNodeParamChange);
+        log.info("WebApplicationServiceImpl. handleRequestFromClient. " + requestFromClientNodeParamChange);
         NodeInfoExtended currentNode = getActiveNodes().stream().filter(node -> node.getId() == requestFromClientNodeParamChange.getNodeId()).findFirst().get();
         nodesService.getNodesMap().get(requestFromClientNodeParamChange.getNodeId()).setValue(requestFromClientNodeParamChange.getValue());
         System.out.println(nodesService.getNodesMap());
@@ -104,7 +129,7 @@ public class ClientsServiceImpl implements ClientsService {
         HttpEntity<String> entity = new HttpEntity<String>(message, headers);
 
         ResponseEntity<String> response = restTemplate.exchange(uri+"/web-rest-api/for-core-application", HttpMethod.POST, entity, String.class);
-        log.info("ClientsServiceImpl. sendNodeChangeRequestToClient. " +
+        log.info("WebApplicationServiceImpl. sendNodeChangeRequestToClient. " +
                 "nodeId:" + nodeId + ", value:" + value + ". " +
                 "Response: " + response);
     }

@@ -5,11 +5,13 @@ import com.shouse.restapi.service.node.NodeType;
 
 import java.util.List;
 
-public interface ClientsService {
+public interface WebApplicationService {
 
     public List<String> getMenuSortTypes();
 
     public List<String> getNamesOfMenuItems(String sortType);
+
+    public List<NodeInfoExtended> getNodes(ClientRequestGetNodes clientRequestGetNodes);
 
     public List<NodeInfoExtended> getActiveNodes();
 

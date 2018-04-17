@@ -5,7 +5,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 public enum NodeLocation {
-    KITCHEN(0, "kitchen"),
+    KITCHEN(0, "кухня"),
     BEDROOM(1, "bedroom"),
     HALL(2, "hall"),
     BATHROOM(3, "bathroom");

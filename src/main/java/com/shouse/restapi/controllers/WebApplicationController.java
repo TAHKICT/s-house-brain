@@ -2,10 +2,10 @@ package com.shouse.restapi.controllers;
 
 import com.shouse.restapi.domain.NodeInfoMessage;
 import com.shouse.restapi.service.client.ClientRequestGetNodes;
+import com.shouse.restapi.service.client.WebApplicationService;
 import com.shouse.restapi.service.node.NodeType;
 import com.shouse.restapi.service.client.RequestFromClientNodeParamChange;
 import com.shouse.restapi.service.client.ClientResponse;
-import com.shouse.restapi.service.client.ClientsService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,7 +23,7 @@ public class WebApplicationController {
     private final Logger log = LoggerFactory.getLogger(this.getClass());
 
     @Autowired
-    ClientsService clientsService;
+    WebApplicationService webApplicationService;
 
     /**
      * Returns sorting variants for menu.
@@ -32,7 +32,7 @@ public class WebApplicationController {
     @RequestMapping("/menu/get-sort-types")
     public List<String> getMenuSortTypes(HttpServletResponse response){
         response.setHeader("Access-Control-Allow-Origin", "*");
-        return clientsService.getMenuSortTypes();
+        return webApplicationService.getMenuSortTypes();
     }
 
     /**
@@ -42,9 +42,9 @@ public class WebApplicationController {
      * @return
      */
     @RequestMapping("/menu/get-items")
-    public List<String> getNamesOfMenuItems(@RequestParam(value = "sortType") String sortType, HttpServletResponse response){
+    public List<String> getNamesOfMenuItems(@RequestParam(value = "sortedBy") String sortType, HttpServletResponse response){
         response.setHeader("Access-Control-Allow-Origin", "*");
-        return clientsService.getNamesOfMenuItems(sortType);
+        return webApplicationService.getNamesOfMenuItems(sortType);
     }
 
     /**
@@ -56,7 +56,7 @@ public class WebApplicationController {
     @RequestMapping("/content/get-nodes")
     public List<NodeInfoMessage> getNodes(@RequestBody ClientRequestGetNodes clientRequestGetNodes,HttpServletResponse response) {
         response.setHeader("Access-Control-Allow-Origin", "*");
-        return clientsService.getActiveNodes(clientRequestGetNodes).stream().map(nodeInfoExtended -> nodeInfoExtended.getNodeInfoMessage()).collect(Collectors.toList());
+        return webApplicationService.getActiveNodes(clientRequestGetNodes).stream().map(nodeInfoExtended -> nodeInfoExtended.getNodeInfoMessage()).collect(Collectors.toList());
     }
 
     /**
@@ -67,7 +67,7 @@ public class WebApplicationController {
     @RequestMapping("/content/node-parameter-change")
     public ClientResponse handleNodeParameterChange(@RequestBody RequestFromClientNodeParamChange requestFromClientNodeParamChange) {
         log.info("WebApplicationController. handleRequestFromWebApplication. :" + requestFromClientNodeParamChange);
-        return clientsService.handleRequestFromClient(requestFromClientNodeParamChange);
+        return webApplicationService.handleRequestFromClient(requestFromClientNodeParamChange);
     }
 
     @RequestMapping("/get-active-nodes/{nodeTypeDescription}")
@@ -76,6 +76,6 @@ public class WebApplicationController {
             HttpServletResponse response) {
         response.setHeader("Access-Control-Allow-Origin", "*");
         log.info("WebApplicationController. getActiveNodesByType. nodeTypeDescription:" + nodeTypeDescription);
-        return clientsService.getActiveNodes(NodeType.getNodeTypeByDescription(nodeTypeDescription)).stream().map(nodeInfoExtended -> nodeInfoExtended.getNodeInfoMessage()).collect(Collectors.toList());
+        return webApplicationService.getActiveNodes(NodeType.getNodeTypeByDescription(nodeTypeDescription)).stream().map(nodeInfoExtended -> nodeInfoExtended.getNodeInfoMessage()).collect(Collectors.toList());
     }
 }
