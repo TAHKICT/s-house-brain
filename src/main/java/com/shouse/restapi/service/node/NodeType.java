@@ -6,8 +6,8 @@ import java.util.stream.Collectors;
 
 public enum NodeType {
     LIGHT (100, "light"),
-    POWER_SOCKET (101, "power-socket"),
-    SENSOR(102, "sensor");
+    POWER_SOCKET (101, "Power socket"),
+    SENSOR(102, "Sensor");
 
     private int id;
     private String name;

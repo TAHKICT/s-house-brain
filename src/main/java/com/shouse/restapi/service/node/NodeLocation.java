@@ -5,10 +5,10 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 public enum NodeLocation {
-    KITCHEN(0, "кухня"),
-    BEDROOM(1, "bedroom"),
-    HALL(2, "hall"),
-    BATHROOM(3, "bathroom");
+    KITCHEN(0, "Kitchen"),
+    BEDROOM(1, "Bedroom"),
+    HALL(2, "Hall"),
+    BATHROOM(3, "Bathroom");
 
     private int id;
     private String name;
