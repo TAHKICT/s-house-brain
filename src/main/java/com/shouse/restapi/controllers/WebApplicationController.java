@@ -5,7 +5,7 @@ import com.shouse.restapi.service.client.ClientRequestGetNodes;
 import com.shouse.restapi.service.client.NodeParamChangeEvent;
 import com.shouse.restapi.service.client.WebApplicationService;
 import com.shouse.restapi.service.node.NodeType;
-import com.shouse.restapi.service.client.ClientResponse;
+import com.shouse.restapi.service.client.ResponseForWebClient;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -65,7 +65,7 @@ public class WebApplicationController {
      * @return
      */
     @RequestMapping("/content/node-parameter-change")
-    public ClientResponse handleNodeParameterChange(@RequestBody NodeParamChangeEvent nodeParamChangeEvent) {
+    public ResponseForWebClient handleNodeParameterChange(@RequestBody NodeParamChangeEvent nodeParamChangeEvent) {
         log.info("WebApplicationController. handleRequestFromWebApplication. :" + nodeParamChangeEvent);
         return webApplicationService.handleRequestFromClient(nodeParamChangeEvent);
     }

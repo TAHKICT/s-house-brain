@@ -2,10 +2,7 @@ package com.shouse.restapi.service.client;
 
 import com.shouse.restapi.domain.NodeInfoExtended;
 import com.shouse.restapi.service.Messages;
-import com.shouse.restapi.service.node.NodeLocation;
-import com.shouse.restapi.service.node.NodeStatus;
-import com.shouse.restapi.service.node.NodeType;
-import com.shouse.restapi.service.node.NodesService;
+import com.shouse.restapi.service.node.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,6 +21,9 @@ public class WebApplicationServiceImpl implements WebApplicationService {
 
     @Autowired
     RestTemplate restTemplate;
+
+    @Autowired
+    WebRequestsToNodeTools webRequestsToNodeTools;
 
     @Override
     public List<String> getMenuSortTypes() {
@@ -105,12 +105,14 @@ public class WebApplicationServiceImpl implements WebApplicationService {
     }
 
     @Override
-    public ClientResponse handleRequestFromClient(NodeParamChangeEvent nodeParamChangeEvent) {
+    public ResponseForWebClient handleRequestFromClient(NodeParamChangeEvent nodeParamChangeEvent) {
         log.info("WebApplicationServiceImpl. handleRequestFromClient. " + nodeParamChangeEvent);
+
         NodeInfoExtended currentNode = getActiveNodes().stream().filter(node -> node.getId() == nodeParamChangeEvent.getNodeId()).findFirst().get();
+        webRequestsToNodeTools.sendRequest(currentNode, nodeParamChangeEvent.getValue());
         nodesService.getNodesMap().get(nodeParamChangeEvent.getNodeId()).setValue(nodeParamChangeEvent.getValue());
-        System.out.println(nodesService.getNodesMap());
-        return new ClientResponse(nodeParamChangeEvent.getNodeId(), currentNode.getValue());
+
+        return new ResponseForWebClient(nodeParamChangeEvent.getNodeId(), currentNode.getValue());
     }
 
     @Override

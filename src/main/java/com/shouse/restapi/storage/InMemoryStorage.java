@@ -21,10 +21,10 @@ public class InMemoryStorage implements NodesStorage {
         nodes.add(new NodeInfo(4, NodeType.LIGHT, NodeLocation.BEDROOM, NodeControlType.CHECKBOX, "основной"));
         nodes.add(new NodeInfo(5, NodeType.LIGHT, NodeLocation.BEDROOM, NodeControlType.CHECKBOX, "ночной"));
         nodes.add(new NodeInfo(6, NodeType.LIGHT, NodeLocation.BEDROOM, NodeControlType.CHECKBOX,"возле зеркала"));
-        nodes.add(new NodeInfo(7, NodeType.SENSOR, NodeLocation.HALL, NodeControlType.INFORMATION,"температура"));
-        nodes.add(new NodeInfo(8, NodeType.SENSOR, NodeLocation.BEDROOM, NodeControlType.INFORMATION,"влажность"));
-        nodes.add(new NodeInfo(9, NodeType.SENSOR, NodeLocation.KITCHEN, NodeControlType.INFORMATION,"температура"));
-        nodes.add(new NodeInfo(10, NodeType.SENSOR, NodeLocation.KITCHEN, NodeControlType.INFORMATION,"влажность"));
+        nodes.add(new NodeInfo(7, NodeType.LIGHT, NodeLocation.HALL, NodeControlType.INFORMATION,"температура"));
+        nodes.add(new NodeInfo(8, NodeType.LIGHT, NodeLocation.HALL, NodeControlType.INFORMATION,"влажность"));
+        nodes.add(new NodeInfo(9, NodeType.LIGHT, NodeLocation.KITCHEN, NodeControlType.INFORMATION,"температура"));
+        nodes.add(new NodeInfo(10, NodeType.LIGHT, NodeLocation.KITCHEN, NodeControlType.INFORMATION,"влажность"));
 
         return nodes;
     }

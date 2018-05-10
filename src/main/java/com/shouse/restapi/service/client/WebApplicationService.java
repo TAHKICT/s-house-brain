@@ -21,7 +21,7 @@ public interface WebApplicationService {
 
     public List<NodeInfoExtended> getAllNodes();
 
-    public ClientResponse handleRequestFromClient(NodeParamChangeEvent nodeParamChangeEvent);
+    public ResponseForWebClient handleRequestFromClient(NodeParamChangeEvent nodeParamChangeEvent);
 
     public void sendNodeChangeRequestToClient(int nodeId, String value);
 }

@@ -1,11 +1,11 @@
 package com.shouse.restapi.service.client;
 
-public class ClientResponse {
+public class ResponseForWebClient {
 
     private int nodeId;
     private String value;
 
-    public ClientResponse(int nodeId, String value) {
+    public ResponseForWebClient(int nodeId, String value) {
         this.nodeId = nodeId;
         this.value = value;
     }
