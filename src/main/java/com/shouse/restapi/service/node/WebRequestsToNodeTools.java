@@ -20,7 +20,9 @@ public class WebRequestsToNodeTools {
         UriComponentsBuilder url = UriComponentsBuilder.fromHttpUrl("http://" + node.getIpAddress() + "/command-from-server")
                 .queryParam("switch", request);
 
-        ResponseEntity<String[]> responseEntity = restTemplate.getForEntity(url.toUriString(), String[].class);
+        log.info("sendRequest. url: " + url.toUriString());
+
+        ResponseEntity<String> responseEntity = restTemplate.getForEntity(url.toUriString(), String.class);
 
         String response = responseEntity.getBody().toString();
         log.info("sendRequest. " +

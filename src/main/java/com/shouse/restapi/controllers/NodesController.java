@@ -42,7 +42,8 @@ public class NodesController {
      * @return request result
      */
     @RequestMapping("/alive-request-from-node")
-    public String handleAliveRequestFromNode(@RequestParam(value = "id") String nodeId){
-        return service.handleAliveRequestFromNode(nodeId,"0.0.0.0");
+    public String handleAliveRequestFromNode(@RequestParam(value = "id") String nodeId, HttpServletRequest request){
+        log.info("handleAliveRequestFromNode. nodeId: {}. IP: {}" , nodeId, request.getRemoteAddr());
+        return service.handleAliveRequestFromNode(nodeId,request.getRemoteAddr());
     }
 }

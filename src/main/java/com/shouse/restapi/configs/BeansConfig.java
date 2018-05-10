@@ -2,6 +2,7 @@ package com.shouse.restapi.configs;
 
 import com.shouse.restapi.service.client.WebApplicationService;
 import com.shouse.restapi.service.client.WebApplicationServiceImpl;
+import com.shouse.restapi.service.node.WebRequestsToNodeTools;
 import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -26,6 +27,11 @@ public class BeansConfig {
     @Bean
     public RestTemplate restTemplate(RestTemplateBuilder builder) {
         return builder.build();
+    }
+
+    @Bean
+    public WebRequestsToNodeTools webRequestsToNodeTools() {
+        return new WebRequestsToNodeTools();
     }
 
 //    @Bean
