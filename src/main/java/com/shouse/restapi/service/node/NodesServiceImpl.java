@@ -4,8 +4,8 @@ import com.shouse.restapi.domain.NodeInfo;
 import com.shouse.restapi.domain.NodeInfoExtended;
 import com.shouse.restapi.service.Messages;
 import com.shouse.restapi.service.client.WebApplicationService;
-import com.shouse.restapi.storage.NodesStorage;
 import org.springframework.beans.factory.annotation.Autowired;
+import shouse.core.node.storage.NodeStorage;
 
 import javax.annotation.PostConstruct;
 import java.util.Map;
@@ -16,11 +16,11 @@ public class NodesServiceImpl implements NodesService {
     @Autowired
     private WebApplicationService webApplicationService;
 
-    private NodesStorage nodesStorage;
+    private NodeStorage nodesStorage;
     private static Map<Integer, NodeInfoExtended> nodeInfoMap;
     private static boolean isSynchronized = false;
 
-    public NodesServiceImpl(NodesStorage nodesStorage) {
+    public NodesServiceImpl(NodeStorage nodesStorage) {
         this.nodesStorage = nodesStorage;
     }
 
@@ -108,7 +108,7 @@ public class NodesServiceImpl implements NodesService {
 
     @PostConstruct
     public void nodeInfoMapSynchronization(){
-        nodeInfoMap = nodesStorage.getNodes().stream().collect(
+        nodeInfoMap = nodesStorage.loadNodes().stream().map(node -> (NodeInfo) node).collect(
                 Collectors.toMap(NodeInfo::getId, NodeInfo -> new NodeInfoExtended(NodeInfo.getId(),NodeInfo.getNodeTypeId(),NodeInfo.getNodeLocationId(),NodeInfo.getNodeControlTypeId(),NodeInfo.getDescription()))
         );
         isSynchronized = true;

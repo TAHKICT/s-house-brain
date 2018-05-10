@@ -40,6 +40,12 @@
             <artifactId>spring-messaging</artifactId>
             <version>5.0.4.RELEASE</version>
         </dependency>
+
+        <dependency>
+            <groupId>s-house</groupId>
+            <artifactId>s-house-core</artifactId>
+            <version>0.1-SNAPSHOT</version>
+        </dependency>
     </dependencies>
 
 

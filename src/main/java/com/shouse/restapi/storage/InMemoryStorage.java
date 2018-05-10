@@ -4,16 +4,18 @@ import com.shouse.restapi.domain.NodeInfo;
 import com.shouse.restapi.service.node.NodeControlType;
 import com.shouse.restapi.service.node.NodeLocation;
 import com.shouse.restapi.service.node.NodeType;
+import shouse.core.node.Node;
+import shouse.core.node.storage.NodeStorage;
 
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class InMemoryStorage implements NodesStorage {
+public class InMemoryStorage implements NodeStorage {
 
     @Override
-    public List<NodeInfo> getNodes() {
-        List<NodeInfo> nodes = new ArrayList<>();
+    public List<Node> loadNodes() {
+        List<Node> nodes = new ArrayList<>();
 
         nodes.add(new NodeInfo(1, NodeType.POWER_SOCKET, NodeLocation.KITCHEN, NodeControlType.CHECKBOX,"стиральная машина"));
         nodes.add(new NodeInfo(2, NodeType.POWER_SOCKET, NodeLocation.KITCHEN, NodeControlType.CHECKBOX,"фен"));

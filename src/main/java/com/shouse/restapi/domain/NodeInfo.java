@@ -3,8 +3,12 @@ package com.shouse.restapi.domain;
 import com.shouse.restapi.service.node.NodeControlType;
 import com.shouse.restapi.service.node.NodeLocation;
 import com.shouse.restapi.service.node.NodeType;
+import shouse.core.communication.Packet;
+import shouse.core.node.Node;
+import shouse.core.node.request.NodeRequest;
+import shouse.core.node.response.Message;
 
-public class NodeInfo {
+public class NodeInfo implements Node {
 
     private int id;
     private int nodeTypeId;
@@ -82,5 +86,15 @@ public class NodeInfo {
                 ", nodeControlTypeId=" + nodeControlTypeId +
                 ", description='" + description + '\'' +
                 '}';
+    }
+
+    @Override
+    public Message process(NodeRequest request) {
+        return null;
+    }
+
+    @Override
+    public void update(Packet packet) {
+
     }
 }
