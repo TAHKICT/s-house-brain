@@ -34,7 +34,7 @@ public class TestNode implements Node {
 
     @Override
     public NodeInfo getNodeInfo() {
-        return null;
+        return new NodeInfo(id, nodeTypeId, nodeLocationId, description);
     }
 
     @Override

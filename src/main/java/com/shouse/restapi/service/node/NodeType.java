@@ -4,6 +4,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
+@Deprecated
 public enum NodeType {
     LIGHT (100, "light"),
     POWER_SOCKET (101, "Power socket"),

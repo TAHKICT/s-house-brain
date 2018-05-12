@@ -2,6 +2,7 @@ package com.shouse.restapi.service.node;
 
 import java.util.Arrays;
 
+@Deprecated
 public enum  NodeStatus {
     SWITCHED_OFF (2000, "switched off"),
     ACTIVE (2001, "active"),

@@ -6,6 +6,8 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
+//Back end shouldn't know about sorting
+@Deprecated
 public enum  ClientMenuSortType {
     TYPE(StringConstants.type),
     LOCATION(StringConstants.location);

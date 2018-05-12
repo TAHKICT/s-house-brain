@@ -1,6 +1,9 @@
 package com.shouse.restapi.service.client;
 
-import com.shouse.restapi.domain.NodeInfoExtended;
+import com.shouse.restapi.communicator.service.NodeInfoExtended;
+import com.shouse.restapi.service.client.ClientRequestGetNodes;
+import com.shouse.restapi.service.client.NodeParamChangeEvent;
+import com.shouse.restapi.service.client.ResponseForWebClient;
 import com.shouse.restapi.service.node.NodeType;
 
 import java.util.List;

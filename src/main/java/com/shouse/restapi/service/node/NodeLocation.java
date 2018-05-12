@@ -4,6 +4,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
+@Deprecated
 public enum NodeLocation {
     KITCHEN(0, "Kitchen"),
     BEDROOM(1, "Bedroom"),

@@ -1,4 +1,4 @@
-package com.shouse.restapi.controllers;
+package com.shouse.restapi.api.controllers;
 
 import com.shouse.restapi.domain.NodeInfoMessage;
 import com.shouse.restapi.service.client.ClientRequestGetNodes;
@@ -8,8 +8,11 @@ import com.shouse.restapi.service.node.NodeType;
 import com.shouse.restapi.service.client.ResponseForWebClient;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+import shouse.core.api.Notifier;
+import shouse.core.api.RequestDispatcher;
+import shouse.core.node.request.Request;
+import shouse.core.node.response.Message;
 
 import javax.servlet.http.HttpServletResponse;
 import java.util.List;
@@ -22,8 +25,33 @@ public class WebApplicationController {
 
     private final Logger log = LoggerFactory.getLogger(this.getClass());
 
-    @Autowired
-    WebApplicationService webApplicationService;
+    private WebApplicationService webApplicationService;
+
+    private RequestDispatcher requestDispatcher;
+
+    public WebApplicationController(WebApplicationService webApplicationService, RequestDispatcher requestDispatcher) {
+        this.webApplicationService = webApplicationService;
+        this.requestDispatcher = requestDispatcher;
+    }
+
+    @RequestMapping(value = "/endpoint", method = RequestMethod.POST)
+    public Message apiEntryPoint(@RequestBody WebRequest webRequest){
+        Request request = createRequest(webRequest);
+        request.setNotifier(defineNotifier());
+        return requestDispatcher.dispatchRequest(request);
+    }
+
+    //TODO: get notifier
+    private Notifier defineNotifier() {
+        return (message) -> {};
+    }
+
+    private Request createRequest(WebRequest requestFromClient) {
+        Request request = new Request();
+        request.setNodeId(requestFromClient.getNodeId());
+        request.setBody(requestFromClient.getBody());
+        return request;
+    }
 
     /**
      * Returns sorting variants for menu.

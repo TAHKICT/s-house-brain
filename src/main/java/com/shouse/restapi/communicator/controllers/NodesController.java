@@ -6,7 +6,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-import com.shouse.restapi.communicator.controllers.service.NodesService;
+import com.shouse.restapi.communicator.service.NodesService;
+import shouse.core.communication.Packet;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -19,19 +20,21 @@ public class NodesController {
     @Autowired
     NodesService service;
 
+    //TODO: change endpoint to accept no only nodeId and value, but body of response, which will contain all info
     /**
      * Handle requests from node.
      * @param nodeId
      * @param value
-     * @return request result
      */
     @RequestMapping("/request-from-node")
-    public String handleRequestFromNode(@RequestParam(value = "id") String nodeId,
+    public void handleRequestFromNode(@RequestParam(value = "id") String nodeId,
                                         @RequestParam(value = "value") String value){
 
-        String result = service.handleNode(nodeId,value);
-        log.info("Handle request from node. NodeId: {}, value: {}. Result: {}", nodeId, result);
-        return result;
+//        String result = service.handleNode(nodeId,value);
+        //just for testing
+        Packet packet = new Packet(Integer.parseInt(nodeId));
+        packet.putData(value, value);
+        log.info("Handle request from node. NodeId: {}, value: {}. Result: {}", nodeId);
     }
 
     /**

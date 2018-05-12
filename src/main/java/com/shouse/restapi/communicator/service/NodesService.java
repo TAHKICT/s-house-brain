@@ -1,6 +1,6 @@
-package com.shouse.restapi.communicator.controllers.service;
+package com.shouse.restapi.communicator.service;
 
-import com.shouse.restapi.domain.NodeInfoExtended;
+import shouse.core.communication.Packet;
 
 import java.util.Map;
 
@@ -9,17 +9,21 @@ import java.util.Map;
  */
 public interface NodesService {
 
+    void handleNode(Packet packet);
+
     /**
      * Handle requests from nodes.
      * @param nodeId
      * @param value
      * @return
      */
+    @Deprecated
     String handleNode(String nodeId, String value);
 
     /**
      * @return map of actual node states
      */
+    @Deprecated
     Map<Integer,NodeInfoExtended> getNodesMap();
 
     /**

@@ -17,6 +17,6 @@ public class DummyProcessor implements RequestProcessor {
 
     @Override
     public boolean isApplicable(Request request) {
-        return true;
+        return request.getNodeId() == 1;
     }
 }

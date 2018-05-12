@@ -1,5 +1,7 @@
-package com.shouse.restapi.domain;
+package com.shouse.restapi.communicator.service;
 
+import com.shouse.restapi.domain.NodeInfoMessage;
+import com.shouse.restapi.domain.NodeInfoMessageControl;
 import com.shouse.restapi.service.node.*;
 import shouse.core.node.NodeInfo;
 

@@ -1,19 +1,14 @@
 package com.shouse.restapi.storage;
 
 import com.shouse.restapi.dummy.dummyNode.TestNode;
+import com.shouse.restapi.service.node.NodeLocation;
 import org.springframework.stereotype.Component;
 import shouse.core.communication.Communicator;
-import shouse.core.node.NodeInfo;
-import com.shouse.restapi.service.node.NodeControlType;
-import com.shouse.restapi.service.node.NodeLocation;
-import com.shouse.restapi.service.node.NodeType;
 import shouse.core.node.Node;
 import shouse.core.node.storage.NodeStorage;
 
-
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
 
 @Component
 public class InMemoryStorage implements NodeStorage {

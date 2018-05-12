@@ -1,17 +1,13 @@
-package com.shouse.restapi.communicator.controllers.service;
+package com.shouse.restapi.communicator.service;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
-import shouse.core.communication.PacketProcessor;
 import shouse.core.node.NodeInfo;
-import com.shouse.restapi.domain.NodeInfoExtended;
 import com.shouse.restapi.service.Messages;
-import com.shouse.restapi.service.client.WebApplicationService;
 import com.shouse.restapi.service.node.NodeStatus;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
 import shouse.core.communication.Communicator;
@@ -21,10 +17,10 @@ import shouse.core.node.Node;
 
 import javax.annotation.PostConstruct;
 import java.util.ArrayList;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentLinkedQueue;
-import java.util.stream.Collectors;
 
 import static java.util.stream.Collectors.toMap;
 
@@ -33,19 +29,24 @@ public class NodesServiceImpl implements NodesService, Communicator {
     private final Logger log = LoggerFactory.getLogger(this.getClass());
 
     private RestTemplate restTemplate;
-    private WebApplicationService webApplicationService;
     private NodeContainer nodesStorage;
     private static Map<Integer, NodeInfoExtended> nodeInfoMap;
 
     private ConcurrentLinkedQueue<Packet> packets = new ConcurrentLinkedQueue<>();
 
     @Autowired
-    public NodesServiceImpl(RestTemplate restTemplate, WebApplicationService webApplicationService, NodeContainer nodesStorage) {
+    public NodesServiceImpl(RestTemplate restTemplate, NodeContainer nodesStorage) {
         this.restTemplate = restTemplate;
-        this.webApplicationService = webApplicationService;
         this.nodesStorage = nodesStorage;
+        this.nodeInfoMap = new LinkedHashMap<>();
     }
 
+    @Override
+    public void handleNode(Packet packet) {
+        packets.add(packet);
+    }
+
+    //Probably remove
     @Override
     public String handleNode(String nodeId, String value) {
         if(nodeId == null)
@@ -62,11 +63,12 @@ public class NodesServiceImpl implements NodesService, Communicator {
             return Messages.nodeIsNotActive;
 
         nodeInfoMap.get(id).setValue(value);
-        webApplicationService.sendNodeChangeRequestToClient(id,value);
+        // webApplicationService.sendNodeChangeRequestToClient(id,value);
 
         return Messages.nodeHandledSuccessfully;
     }
 
+    //TODO: refactor in a way to use NodeContainer to get latest data
     public Map<Integer, NodeInfoExtended> getNodesMap() {
         return nodeInfoMap;
     }
@@ -177,6 +179,7 @@ public class NodesServiceImpl implements NodesService, Communicator {
 
     @Override
     public boolean hasNewPacket() {
+        //because isEmpty() is not constant time operation, should be refactored somehow
         return !packets.isEmpty();
     }
 }

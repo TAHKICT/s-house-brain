@@ -1,6 +1,6 @@
 package com.shouse.restapi.service.node;
 
-import com.shouse.restapi.domain.NodeInfoExtended;
+import com.shouse.restapi.communicator.service.NodeInfoExtended;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,7 +8,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
 
-
+@Deprecated
 public class WebRequestsToNodeTools {
 
     private final Logger log = LoggerFactory.getLogger(this.getClass());

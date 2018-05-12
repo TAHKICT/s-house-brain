@@ -6,10 +6,12 @@ import com.shouse.restapi.service.node.WebRequestsToNodeTools;
 import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import com.shouse.restapi.communicator.controllers.service.NodesService;
-import com.shouse.restapi.communicator.controllers.service.NodesServiceImpl;
+import com.shouse.restapi.communicator.service.NodesService;
+import com.shouse.restapi.communicator.service.NodesServiceImpl;
 import com.shouse.restapi.storage.InMemoryStorage;
 import org.springframework.web.client.RestTemplate;
+import shouse.core.api.RequestDispatcher;
+import shouse.core.api.RequestDispatcherImpl;
 import shouse.core.api.RequestProcessor;
 import shouse.core.communication.Communicator;
 import shouse.core.communication.PacketProcessor;
@@ -25,8 +27,8 @@ import java.util.Set;
 public class BeansConfig {
 
     @Bean
-    public NodesService basicNodesService(WebApplicationService webAppService, RestTemplate restTemplate, NodeContainer nodeContainer) {
-        return new NodesServiceImpl(restTemplate, webAppService, nodeContainer);
+    public NodesService basicNodesService(RestTemplate restTemplate, NodeContainer nodeContainer) {
+        return new NodesServiceImpl(restTemplate, nodeContainer);
     }
 
     @Bean
@@ -40,8 +42,13 @@ public class BeansConfig {
     }
 
     @Bean
-    public Controller smartController(Set<Communicator> communicators, Set<RequestProcessor> processors, Set<PacketProcessor> packetProcessors){
-        return new ControllerImpl(communicators, processors, packetProcessors);
+    public Controller smartController(Set<Communicator> communicators, Set<PacketProcessor> packetProcessors){
+        return new ControllerImpl(communicators, packetProcessors);
+    }
+
+    @Bean
+    public RequestDispatcher requestDispatcher(Set<RequestProcessor> processors){
+        return new RequestDispatcherImpl(processors);
     }
 
     @Bean
