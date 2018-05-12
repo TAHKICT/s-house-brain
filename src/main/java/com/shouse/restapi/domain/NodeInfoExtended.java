@@ -1,6 +1,7 @@
 package com.shouse.restapi.domain;
 
 import com.shouse.restapi.service.node.*;
+import shouse.core.node.NodeInfo;
 
 public class NodeInfoExtended extends NodeInfo {
 
@@ -9,17 +10,23 @@ public class NodeInfoExtended extends NodeInfo {
     private NodeStatus nodeStatus;
     private String value;
 
-    public NodeInfoExtended(int id, int nodeTypeId, int nodeLocationId, int nodeControlId, String description) {
-        super(id, nodeTypeId, nodeLocationId, nodeControlId, description);
-        this.value = NodeValue.CHECKED;
-        this.nodeStatus = NodeStatus.ACTIVE;
+    public NodeInfoExtended(int id, int nodeTypeId, int nodeLocationId, String description) {
+        super(id, nodeTypeId, nodeLocationId, description);
+    }
+
+    public NodeInfoExtended(NodeInfo nodeInfo, String ipAddress, String networkSSID, NodeStatus nodeStatus, String value){
+        super(nodeInfo.getId(), nodeInfo.getNodeTypeId(), nodeInfo.getNodeLocationId(), nodeInfo.getDescription());
+        this.ipAddress = ipAddress;
+        this.networkSSID = networkSSID;
+        this.nodeStatus = nodeStatus;
+        this.value = value;
     }
 
     public NodeInfoMessage getNodeInfoMessage(){
         return new NodeInfoMessage(getId(),
                 NodeType.getNodeTypeById(getNodeTypeId()).getName(),
                 NodeLocation.getNodeLocationById(getNodeLocationId()).getName(),
-                new NodeInfoMessageControl(NodeControlType.getNodeControllTypeById(getNodeControlTypeId()).getDescription(),value),
+                new NodeInfoMessageControl("checkbox", value),
                 getDescription());
     }
 

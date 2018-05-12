@@ -1,4 +1,4 @@
-package com.shouse.restapi.service.node;
+package com.shouse.restapi.communicator.controllers.service;
 
 import com.shouse.restapi.domain.NodeInfoExtended;
 
@@ -8,10 +8,6 @@ import java.util.Map;
  * Holds logical part.
  */
 public interface NodesService {
-    /**
-     * When system starts, nodes map should be token from the storage.
-     */
-    void nodeInfoMapSynchronization();
 
     /**
      * Handle requests from nodes.

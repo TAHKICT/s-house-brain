@@ -1,5 +1,6 @@
 package com.shouse.restapi.service.client;
 
+import com.shouse.restapi.communicator.controllers.service.NodesService;
 import com.shouse.restapi.domain.NodeInfoExtended;
 import com.shouse.restapi.service.Messages;
 import com.shouse.restapi.service.node.*;

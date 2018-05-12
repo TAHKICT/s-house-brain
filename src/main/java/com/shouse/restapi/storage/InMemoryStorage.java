@@ -1,6 +1,9 @@
 package com.shouse.restapi.storage;
 
-import com.shouse.restapi.domain.NodeInfo;
+import com.shouse.restapi.dummy.dummyNode.TestNode;
+import org.springframework.stereotype.Component;
+import shouse.core.communication.Communicator;
+import shouse.core.node.NodeInfo;
 import com.shouse.restapi.service.node.NodeControlType;
 import com.shouse.restapi.service.node.NodeLocation;
 import com.shouse.restapi.service.node.NodeType;
@@ -10,23 +13,31 @@ import shouse.core.node.storage.NodeStorage;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
+@Component
 public class InMemoryStorage implements NodeStorage {
+
+    private List<Communicator> communicators;
+
+    public InMemoryStorage(List<Communicator> communicators) {
+        this.communicators = communicators;
+    }
 
     @Override
     public List<Node> loadNodes() {
         List<Node> nodes = new ArrayList<>();
 
-        nodes.add(new NodeInfo(1, NodeType.POWER_SOCKET, NodeLocation.KITCHEN, NodeControlType.CHECKBOX,"стиральная машина"));
-        nodes.add(new NodeInfo(2, NodeType.POWER_SOCKET, NodeLocation.KITCHEN, NodeControlType.CHECKBOX,"фен"));
-        nodes.add(new NodeInfo(3, NodeType.POWER_SOCKET, NodeLocation.HALL, NodeControlType.CHECKBOX,"возле шкафа"));
-        nodes.add(new NodeInfo(4, NodeType.LIGHT, NodeLocation.BEDROOM, NodeControlType.CHECKBOX, "основной"));
-        nodes.add(new NodeInfo(5, NodeType.LIGHT, NodeLocation.BEDROOM, NodeControlType.CHECKBOX, "ночной"));
-        nodes.add(new NodeInfo(6, NodeType.LIGHT, NodeLocation.BEDROOM, NodeControlType.CHECKBOX,"возле зеркала"));
-        nodes.add(new NodeInfo(7, NodeType.LIGHT, NodeLocation.HALL, NodeControlType.INFORMATION,"температура"));
-        nodes.add(new NodeInfo(8, NodeType.LIGHT, NodeLocation.HALL, NodeControlType.INFORMATION,"влажность"));
-        nodes.add(new NodeInfo(9, NodeType.LIGHT, NodeLocation.KITCHEN, NodeControlType.INFORMATION,"температура"));
-        nodes.add(new NodeInfo(10, NodeType.LIGHT, NodeLocation.KITCHEN, NodeControlType.INFORMATION,"влажность"));
+        nodes.add(new TestNode(1, NodeLocation.KITCHEN.getId(),"стиральная машина", communicators.get(0)));
+        nodes.add(new TestNode(2, NodeLocation.KITCHEN.getId(),"фен", communicators.get(0)));
+        nodes.add(new TestNode(3, NodeLocation.KITCHEN.getId(),"возле шкафа", communicators.get(0)));
+        nodes.add(new TestNode(4, NodeLocation.BEDROOM.getId(), "основной", communicators.get(0)));
+        nodes.add(new TestNode(5, NodeLocation.BEDROOM.getId(), "ночной", communicators.get(0)));
+        nodes.add(new TestNode(6, NodeLocation.BEDROOM.getId(),"возле зеркала", communicators.get(0)));
+        nodes.add(new TestNode(7, NodeLocation.BEDROOM.getId(),"температура", communicators.get(0)));
+        nodes.add(new TestNode(8, NodeLocation.BEDROOM.getId(),"влажность", communicators.get(0)));
+        nodes.add(new TestNode(9, NodeLocation.BEDROOM.getId(),"температура", communicators.get(0)));
+        nodes.add(new TestNode(10, NodeLocation.BEDROOM.getId(),"влажность", communicators.get(0)));
 
         return nodes;
     }
