@@ -34,6 +34,7 @@ public class NodesController {
         //just for testing
         Packet packet = new Packet(Integer.parseInt(nodeId));
         packet.putData(value, value);
+        service.handleNode(packet);
         log.info("Handle request from node. NodeId: {}, value: {}. Result: {}", nodeId);
     }
 

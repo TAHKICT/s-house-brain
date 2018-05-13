@@ -1,5 +1,6 @@
 package com.shouse.restapi.configs;
 
+import com.shouse.restapi.service.NodesInfoProcessor;
 import com.shouse.restapi.service.client.WebApplicationService;
 import com.shouse.restapi.service.client.WebApplicationServiceImpl;
 import com.shouse.restapi.service.node.WebRequestsToNodeTools;
@@ -64,6 +65,11 @@ public class BeansConfig {
     @Bean
     public WebRequestsToNodeTools webRequestsToNodeTools() {
         return new WebRequestsToNodeTools();
+    }
+
+    @Bean
+    public NodesInfoProcessor nodesInfoProcessor(NodeContainer container){
+        return new NodesInfoProcessor(container);
     }
 
 //    @Bean
