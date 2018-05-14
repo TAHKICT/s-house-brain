@@ -11,30 +11,22 @@ import shouse.core.node.response.Message;
 /**
  * Created by Maks on 10.05.2018.
  */
-public class TestNode implements Node {
+public class TestNode extends Node {
 
     private Communicator communicator;
-    private int id;
-    private int nodeTypeId;
     private int nodeLocationId;
     private String description;
 
     public TestNode(int id, int nodeLocationId, String description, Communicator communicator) {
+        super(id, NodeType.POWER_SOCKET.getId());
         this.communicator = communicator;
-        this.id = id;
-        this.nodeTypeId = NodeType.POWER_SOCKET.getId();
         this.nodeLocationId = nodeLocationId;
         this.description = description;
     }
 
     @Override
-    public int getId() {
-        return id;
-    }
-
-    @Override
     public NodeInfo getNodeInfo() {
-        return new NodeInfo(id, nodeTypeId, nodeLocationId, description);
+        return new NodeInfo(getId(), getTypeId(), nodeLocationId, description);
     }
 
     @Override
@@ -48,7 +40,7 @@ public class TestNode implements Node {
     }
 
     private Packet createDeletePacket(Request request) {
-        return new Packet(id);
+        return new Packet(getId());
     }
 
     @Override

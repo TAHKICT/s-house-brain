@@ -173,7 +173,7 @@ public class NodesServiceImpl implements NodesService, Communicator {
     }
 
     @Override
-    public Packet recivePacket() {
+    public Packet receivePacket() {
         return packets.poll();
     }
 

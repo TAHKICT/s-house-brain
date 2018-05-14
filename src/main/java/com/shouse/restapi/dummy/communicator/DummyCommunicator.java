@@ -13,7 +13,7 @@ public class DummyCommunicator implements Communicator {
     }
 
     @Override
-    public Packet recivePacket() {
+    public Packet receivePacket() {
         return null;
     }
 
