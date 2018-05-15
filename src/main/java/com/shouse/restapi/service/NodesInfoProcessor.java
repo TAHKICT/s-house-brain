@@ -6,7 +6,7 @@ import shouse.core.node.Node;
 import shouse.core.node.NodeInfo;
 import shouse.core.node.request.Request;
 import shouse.core.node.request.RequestBody;
-import shouse.core.node.response.Message;
+import shouse.core.node.response.Response;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -26,7 +26,7 @@ public class NodesInfoProcessor implements RequestProcessor {
     }
 
     @Override
-    public Message processRequest(Request request) {
+    public Response processRequest(Request request) {
         RequestBody data = request.getBody();
         String command = data.getParameter("command");
         if (command != null){
@@ -36,16 +36,16 @@ public class NodesInfoProcessor implements RequestProcessor {
             }
         }
 
-        return new Message(FAILURE);
+        return new Response(FAILURE);
     }
 
-    private Message getAllNodesInfo() {
-        Message message = new Message();
-        message.setStatus(SUCCESS);
+    private Response getAllNodesInfo() {
+        Response response = new Response();
+        response.setStatus(SUCCESS);
 
         List<NodeInfo> nodes = storage.getAllNodes().stream().map(Node::getNodeInfo).collect(Collectors.toList());
-        message.put("nodes", nodes);
-        return message;
+        response.put("nodes", nodes);
+        return response;
     }
 
     @Override

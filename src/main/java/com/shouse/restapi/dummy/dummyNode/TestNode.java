@@ -6,7 +6,7 @@ import shouse.core.communication.Packet;
 import shouse.core.node.Node;
 import shouse.core.node.NodeInfo;
 import shouse.core.node.request.Request;
-import shouse.core.node.response.Message;
+import shouse.core.node.response.Response;
 
 /**
  * Created by Maks on 10.05.2018.
@@ -30,10 +30,10 @@ public class TestNode extends Node {
     }
 
     @Override
-    public Message process(Request request) {
+    public Response process(Request request) {
         if (request.getBody().getParameter("aaaa") != null){
             communicator.sendPacket(createDeletePacket(request));
-            return new Message();
+            return new Response();
         }
 
         throw new RuntimeException();

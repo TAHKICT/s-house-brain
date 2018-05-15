@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.*;
 import shouse.core.api.Notifier;
 import shouse.core.api.RequestDispatcher;
 import shouse.core.node.request.Request;
-import shouse.core.node.response.Message;
+import shouse.core.node.response.Response;
 
 import javax.servlet.http.HttpServletResponse;
 import java.util.List;
@@ -35,7 +35,7 @@ public class WebApplicationController {
     }
 
     @RequestMapping(value = "/endpoint", method = RequestMethod.POST)
-    public Message apiEntryPoint(@RequestBody WebRequest webRequest){
+    public Response apiEntryPoint(@RequestBody WebRequest webRequest){
         Request request = createRequest(webRequest);
         request.setNotifier(defineNotifier());
         return requestDispatcher.dispatchRequest(request);

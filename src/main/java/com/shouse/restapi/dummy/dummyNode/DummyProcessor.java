@@ -2,7 +2,7 @@ package com.shouse.restapi.dummy.dummyNode;
 
 import shouse.core.api.RequestProcessor;
 import shouse.core.node.request.Request;
-import shouse.core.node.response.Message;
+import shouse.core.node.response.Response;
 
 /**
  * Created by Maks on 11.05.2018.
@@ -10,9 +10,9 @@ import shouse.core.node.response.Message;
 public class DummyProcessor implements RequestProcessor {
 
     @Override
-    public Message processRequest(Request request) {
+    public Response processRequest(Request request) {
         System.out.println(request.toString());
-        return new Message();
+        return new Response();
     }
 
     @Override

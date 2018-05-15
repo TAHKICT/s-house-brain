@@ -1,11 +1,11 @@
 package com.shouse.restapi.PowerSocket;
 
+import com.shouse.restapi.service.node.NodeType;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -52,6 +52,8 @@ public class PowerSocketWiFiCommunicator implements Communicator{
             @RequestParam(value = "switched") String switched) {
         packet = new Packet(id);
         packet.putData("switched", switched);
+        packet.putData("nodeTypeId", String.valueOf(NodeType.POWER_SOCKET.getId()));
+        hasPacket = true;
     }
 
     @Override

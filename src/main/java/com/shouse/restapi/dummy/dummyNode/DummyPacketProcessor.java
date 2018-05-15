@@ -8,12 +8,13 @@ import shouse.core.communication.PacketProcessor;
  */
 public class DummyPacketProcessor implements PacketProcessor {
     @Override
-    public void processPacket(Packet request) {
+    public void processPacket(Packet packet) {
 
     }
 
     @Override
-    public boolean isApplicable(Packet request) {
+    public boolean isApplicable(Packet packet) {
+
         return false;
     }
 }
