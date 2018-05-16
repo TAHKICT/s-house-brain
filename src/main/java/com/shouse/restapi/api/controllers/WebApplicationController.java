@@ -27,12 +27,12 @@ public class WebApplicationController {
 
     private RequestDispatcher requestDispatcher;
 
-    @Autowired
     private RestTemplate restTemplate;
 
-    public WebApplicationController(WebApplicationService webApplicationService, RequestDispatcher requestDispatcher) {
+    public WebApplicationController(WebApplicationService webApplicationService, RequestDispatcher requestDispatcher, RestTemplate restTemplate) {
         this.webApplicationService = webApplicationService;
         this.requestDispatcher = requestDispatcher;
+        this.restTemplate = restTemplate;
     }
 
     @RequestMapping(value = "/endpoint", method = RequestMethod.POST)

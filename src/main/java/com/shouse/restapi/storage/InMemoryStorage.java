@@ -1,5 +1,6 @@
 package com.shouse.restapi.storage;
 
+import com.shouse.restapi.PowerSocket.PowerSocketNode;
 import com.shouse.restapi.dummy.dummyNode.TestNode;
 import com.shouse.restapi.service.node.NodeLocation;
 import org.springframework.stereotype.Component;
@@ -23,7 +24,7 @@ public class InMemoryStorage implements NodeStorage {
     public List<Node> loadNodes() {
         List<Node> nodes = new ArrayList<>();
 
-        nodes.add(new TestNode(1, NodeLocation.KITCHEN.getId(),"стиральная машина", communicators.get(0)));
+        nodes.add(new PowerSocketNode(1, NodeLocation.KITCHEN.getId(),"стиральная машина", communicators.get(0)));
         nodes.add(new TestNode(2, NodeLocation.KITCHEN.getId(),"фен", communicators.get(0)));
         nodes.add(new TestNode(3, NodeLocation.KITCHEN.getId(),"возле шкафа", communicators.get(0)));
         nodes.add(new TestNode(4, NodeLocation.BEDROOM.getId(), "основной", communicators.get(0)));

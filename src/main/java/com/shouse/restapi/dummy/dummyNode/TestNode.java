@@ -18,7 +18,7 @@ public class TestNode extends Node {
     private String description;
 
     public TestNode(int id, int nodeLocationId, String description, Communicator communicator) {
-        super(id, NodeType.POWER_SOCKET.getId(), false);
+        super(id, NodeType.LIGHT.getId(), false);
         this.communicator = communicator;
         this.nodeLocationId = nodeLocationId;
         this.description = description;

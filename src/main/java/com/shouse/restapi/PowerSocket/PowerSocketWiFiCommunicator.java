@@ -30,15 +30,13 @@ public class PowerSocketWiFiCommunicator implements Communicator{
     private final Logger log = LoggerFactory.getLogger(this.getClass());
 
     private RestTemplate restTemplate;
-    private NodeContainer nodeContainer;
     private Packet packet;
     private boolean hasPacket;
     private Map nodesIP = new HashMap<Integer,String >();
 
     @Autowired
-    public PowerSocketWiFiCommunicator(RestTemplate restTemplate, NodeContainer nodeContainer) {
+    public PowerSocketWiFiCommunicator(RestTemplate restTemplate) {
         this.restTemplate = restTemplate;
-        this.nodeContainer = nodeContainer;
     }
 
     private MultiValueMap<String, String> getDataFromPacket(Packet packet) {

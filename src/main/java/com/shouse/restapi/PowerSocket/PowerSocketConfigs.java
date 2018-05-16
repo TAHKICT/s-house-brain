@@ -12,8 +12,8 @@ import shouse.core.controller.NodeContainer;
 public class PowerSocketConfigs {
 
     @Bean
-    public Communicator powerSocketWiFiCommunicator(RestTemplate restTemplate, NodeContainer nodeContainer){
-        return new PowerSocketWiFiCommunicator(restTemplate, nodeContainer);
+    public Communicator powerSocketWiFiCommunicator(RestTemplate restTemplate){
+        return new PowerSocketWiFiCommunicator(restTemplate);
     }
 
     @Bean
