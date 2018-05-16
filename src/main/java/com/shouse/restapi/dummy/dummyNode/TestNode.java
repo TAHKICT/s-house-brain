@@ -1,6 +1,6 @@
 package com.shouse.restapi.dummy.dummyNode;
 
-import com.shouse.restapi.service.node.NodeType;
+import shouse.core.Common.NodeType;
 import shouse.core.communication.Communicator;
 import shouse.core.communication.Packet;
 import shouse.core.node.Node;
@@ -18,7 +18,7 @@ public class TestNode extends Node {
     private String description;
 
     public TestNode(int id, int nodeLocationId, String description, Communicator communicator) {
-        super(id, NodeType.POWER_SOCKET.getId());
+        super(id, NodeType.POWER_SOCKET.getId(), false);
         this.communicator = communicator;
         this.nodeLocationId = nodeLocationId;
         this.description = description;
@@ -44,7 +44,7 @@ public class TestNode extends Node {
     }
 
     @Override
-    public void update(Packet packet) {
+    public void processPacket(Packet packet) {
 
     }
 }

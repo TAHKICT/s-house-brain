@@ -1,7 +1,5 @@
 package com.shouse.restapi.communicator.service;
 
-import com.shouse.restapi.domain.NodeInfoMessage;
-import com.shouse.restapi.domain.NodeInfoMessageControl;
 import com.shouse.restapi.service.node.*;
 import shouse.core.node.NodeInfo;
 
@@ -24,13 +22,13 @@ public class NodeInfoExtended extends NodeInfo {
         this.value = value;
     }
 
-    public NodeInfoMessage getNodeInfoMessage(){
-        return new NodeInfoMessage(getId(),
-                NodeType.getNodeTypeById(getNodeTypeId()).getName(),
-                NodeLocation.getNodeLocationById(getNodeLocationId()).getName(),
-                new NodeInfoMessageControl("checkbox", value),
-                getDescription());
-    }
+//    public NodeInfoMessage getNodeInfoMessage(){
+//        return new NodeInfoMessage(getId(),
+//                NodeType.getNodeTypeById(getNodeTypeId()).getName(),
+//                NodeLocation.getNodeLocationById(getNodeLocationId()).getName(),
+//                new NodeInfoMessageControl("checkbox", value),
+//                getDescription());
+//    }
 
     public String getIpAddress() {
         return ipAddress;

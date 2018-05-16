@@ -31,19 +31,31 @@ public class NodesInfoProcessor implements RequestProcessor {
         String command = data.getParameter("command");
         if (command != null){
             switch (command){
-                case "nodeInfo":
-                    return getAllNodesInfo();
+                case "allNodes":
+                    return getNodesInfo(false);
+                case "activeNodes":
+                    return getNodesInfo(true);
             }
         }
 
         return new Response(FAILURE);
     }
 
-    private Response getAllNodesInfo() {
+    private Response getNodesInfo(boolean isActiveOnly) {
         Response response = new Response();
         response.setStatus(SUCCESS);
 
-        List<NodeInfo> nodes = storage.getAllNodes().stream().map(Node::getNodeInfo).collect(Collectors.toList());
+        List<NodeInfo> nodes = storage.getAllNodes().stream().filter(node -> {
+            if(isActiveOnly) {
+                if(node.isActive())
+                    return true;
+                else
+                    return false;
+            }
+            else {
+                return true;
+            }
+        }).map(Node::getNodeInfo).collect(Collectors.toList());
         response.put("nodes", nodes);
         return response;
     }

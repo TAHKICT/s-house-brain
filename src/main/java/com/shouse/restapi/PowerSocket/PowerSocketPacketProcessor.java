@@ -1,6 +1,6 @@
 package com.shouse.restapi.PowerSocket;
 
-import com.shouse.restapi.service.node.NodeType;
+import shouse.core.Common.NodeType;
 import org.springframework.beans.factory.annotation.Autowired;
 import shouse.core.communication.Packet;
 import shouse.core.communication.PacketProcessor;
@@ -18,11 +18,7 @@ public class PowerSocketPacketProcessor implements PacketProcessor {
     @Override
     public void processPacket(Packet packet) {
         PowerSocketNode node = (PowerSocketNode) nodeContainer.getNode(packet.getNodeId()).get();
-        if(packet.getData().get("switch").equals("checked")){
-            node.setSwitched(true);
-        } else if(packet.getData().get("switch").equals("unchecked")){
-            node.setSwitched(false);
-        }
+        node.processPacket(packet);
     }
 
     @Override

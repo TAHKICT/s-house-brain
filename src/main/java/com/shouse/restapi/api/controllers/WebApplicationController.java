@@ -1,14 +1,13 @@
 package com.shouse.restapi.api.controllers;
 
-import com.shouse.restapi.domain.NodeInfoMessage;
-import com.shouse.restapi.service.client.ClientRequestGetNodes;
 import com.shouse.restapi.service.client.NodeParamChangeEvent;
 import com.shouse.restapi.service.client.WebApplicationService;
-import com.shouse.restapi.service.node.NodeType;
 import com.shouse.restapi.service.client.ResponseForWebClient;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.client.RestTemplate;
 import shouse.core.api.Notifier;
 import shouse.core.api.RequestDispatcher;
 import shouse.core.node.request.Request;
@@ -16,7 +15,6 @@ import shouse.core.node.response.Response;
 
 import javax.servlet.http.HttpServletResponse;
 import java.util.List;
-import java.util.stream.Collectors;
 
 
 @RestController
@@ -28,6 +26,9 @@ public class WebApplicationController {
     private WebApplicationService webApplicationService;
 
     private RequestDispatcher requestDispatcher;
+
+    @Autowired
+    private RestTemplate restTemplate;
 
     public WebApplicationController(WebApplicationService webApplicationService, RequestDispatcher requestDispatcher) {
         this.webApplicationService = webApplicationService;
@@ -43,7 +44,9 @@ public class WebApplicationController {
 
     //TODO: get notifier
     private Notifier defineNotifier() {
-        return (message) -> {};
+        return (response) -> {
+            restTemplate.postForEntity("http://localhost:8181/web-rest-api/response", response, Response.class);
+        };
     }
 
     private Request createRequest(WebRequest requestFromClient) {
@@ -81,11 +84,11 @@ public class WebApplicationController {
      * @param response
      * @return
      */
-    @RequestMapping("/content/get-nodes")
-    public List<NodeInfoMessage> getNodes(@RequestBody ClientRequestGetNodes clientRequestGetNodes,HttpServletResponse response) {
-        response.setHeader("Access-Control-Allow-Origin", "*");
-        return webApplicationService.getActiveNodes(clientRequestGetNodes).stream().map(nodeInfoExtended -> nodeInfoExtended.getNodeInfoMessage()).collect(Collectors.toList());
-    }
+//    @RequestMapping("/content/get-nodes")
+//    public List<NodeInfoMessage> getNodes(@RequestBody ClientRequestGetNodes clientRequestGetNodes,HttpServletResponse response) {
+//        response.setHeader("Access-Control-Allow-Origin", "*");
+//        return webApplicationService.getActiveNodes(clientRequestGetNodes).stream().map(nodeInfoExtended -> nodeInfoExtended.getNodeInfoMessage()).collect(Collectors.toList());
+//    }
 
     /**
      *  Handle request from web client about changing node params.
@@ -98,12 +101,12 @@ public class WebApplicationController {
         return webApplicationService.handleRequestFromClient(nodeParamChangeEvent);
     }
 
-    @RequestMapping("/get-active-nodes/{nodeTypeDescription}")
-    public List<NodeInfoMessage> getActiveNodesByType(
-            @PathVariable(value="nodeTypeDescription") String nodeTypeDescription,
-            HttpServletResponse response) {
-        response.setHeader("Access-Control-Allow-Origin", "*");
-        log.info("WebApplicationController. getActiveNodesByType. nodeTypeDescription:" + nodeTypeDescription);
-        return webApplicationService.getActiveNodes(NodeType.getNodeTypeByDescription(nodeTypeDescription)).stream().map(nodeInfoExtended -> nodeInfoExtended.getNodeInfoMessage()).collect(Collectors.toList());
-    }
+//    @RequestMapping("/get-active-nodes/{nodeTypeDescription}")
+//    public List<NodeInfoMessage> getActiveNodesByType(
+//            @PathVariable(value="nodeTypeDescription") String nodeTypeDescription,
+//            HttpServletResponse response) {
+//        response.setHeader("Access-Control-Allow-Origin", "*");
+//        log.info("WebApplicationController. getActiveNodesByType. nodeTypeDescription:" + nodeTypeDescription);
+//        return webApplicationService.getActiveNodes(NodeType.getNodeTypeByDescription(nodeTypeDescription)).stream().map(nodeInfoExtended -> nodeInfoExtended.getNodeInfoMessage()).collect(Collectors.toList());
+//    }
 }

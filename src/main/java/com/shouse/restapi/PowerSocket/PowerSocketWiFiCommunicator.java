@@ -1,6 +1,6 @@
 package com.shouse.restapi.PowerSocket;
 
-import com.shouse.restapi.service.node.NodeType;
+import shouse.core.Common.NodeType;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,11 +11,14 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
+import shouse.core.Common.SystemConstants;
 import shouse.core.communication.Communicator;
 import shouse.core.communication.Packet;
 import shouse.core.controller.NodeContainer;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -30,6 +33,7 @@ public class PowerSocketWiFiCommunicator implements Communicator{
     private NodeContainer nodeContainer;
     private Packet packet;
     private boolean hasPacket;
+    private Map nodesIP = new HashMap<Integer,String >();
 
     @Autowired
     public PowerSocketWiFiCommunicator(RestTemplate restTemplate, NodeContainer nodeContainer) {
@@ -49,17 +53,21 @@ public class PowerSocketWiFiCommunicator implements Communicator{
     @RequestMapping("")
     public void receiveRequestFromWiFiPowerSocketNode(
             @RequestParam(value = "id") int id,
-            @RequestParam(value = "switched") String switched) {
+            @RequestParam(value = "requestId") String requestId,
+            @RequestParam(value = "nodeTaskStatus") String nodeTaskStatus,
+            HttpServletRequest request) {
+        nodesIP.put(id, request.getRemoteAddr());
+
         packet = new Packet(id);
-        packet.putData("switched", switched);
         packet.putData("nodeTypeId", String.valueOf(NodeType.POWER_SOCKET.getId()));
+        packet.putData(SystemConstants.requestId, requestId);
+        packet.putData(SystemConstants.nodeTaskStatus, nodeTaskStatus);
         hasPacket = true;
     }
 
     @Override
     public void sendPacket(Packet packet) {
-        PowerSocketNode node = (PowerSocketNode) nodeContainer.getNode(packet.getNodeId()).get();
-        UriComponentsBuilder url = UriComponentsBuilder.fromHttpUrl("http://" + node.getIp() + "/command-from-server")
+        UriComponentsBuilder url = UriComponentsBuilder.fromHttpUrl("http://" + nodesIP.get(packet.getNodeId()) + "/command-from-server")
                 .queryParams(getDataFromPacket(packet));
         log.info("sendRequest. url: " + url.toUriString());
         restTemplate.getForEntity(url.toUriString(), String.class);
