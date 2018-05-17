@@ -1,4 +1,4 @@
-package com.shouse.restapi.PowerSocket;
+package com.shouse.restapi.powerSocket;
 
 import shouse.core.Common.NodeType;
 import org.slf4j.Logger;
@@ -14,7 +14,6 @@ import org.springframework.web.util.UriComponentsBuilder;
 import shouse.core.Common.SystemConstants;
 import shouse.core.communication.Communicator;
 import shouse.core.communication.Packet;
-import shouse.core.controller.NodeContainer;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.ArrayList;

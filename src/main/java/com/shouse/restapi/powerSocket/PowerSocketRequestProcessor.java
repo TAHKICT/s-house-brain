@@ -1,5 +1,6 @@
-package com.shouse.restapi.PowerSocket;
+package com.shouse.restapi.powerSocket;
 
+import com.shouse.node.PowerSocket.PowerSocketNode;
 import shouse.core.Common.NodeType;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

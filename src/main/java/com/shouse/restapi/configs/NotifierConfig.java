@@ -5,7 +5,6 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.client.RestTemplate;
 import shouse.core.api.Notifier;
-import shouse.core.api.NotifierContainer;
 
 @Configuration
 public class NotifierConfig {
@@ -15,8 +14,5 @@ public class NotifierConfig {
         return new RestWebApiNotifier(restTemplate);
     }
 
-    @Bean
-    public NotifierContainer notifierContainer(Notifier notifier){
-        return new NotifierContainer(notifier);
-    }
 }
+

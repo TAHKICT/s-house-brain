@@ -11,6 +11,7 @@ import com.shouse.restapi.communicator.service.NodesService;
 import com.shouse.restapi.communicator.service.NodesServiceImpl;
 import com.shouse.restapi.storage.InMemoryStorage;
 import org.springframework.web.client.RestTemplate;
+import shouse.core.api.Notifier;
 import shouse.core.api.RequestDispatcher;
 import shouse.core.api.RequestDispatcherImpl;
 import shouse.core.api.RequestProcessor;
@@ -33,8 +34,8 @@ public class BeansConfig {
     }
 
     @Bean
-    public NodeStorage nodeStorage(List<Communicator> communicators){
-        return new InMemoryStorage(communicators);
+    public NodeStorage nodeStorage(List<Communicator> communicators, List<Notifier> notifiers){
+        return new InMemoryStorage(communicators, notifiers);
     }
 
     @Bean

@@ -1,4 +1,4 @@
-package com.shouse.restapi.PowerSocket;
+package com.shouse.restapi.powerSocket;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
