@@ -1,5 +1,6 @@
 package com.shouse.restapi.service;
 
+import shouse.core.Common.NodeType;
 import shouse.core.api.RequestProcessor;
 import shouse.core.controller.NodeContainer;
 import shouse.core.node.Node;
@@ -35,6 +36,8 @@ public class NodesInfoProcessor implements RequestProcessor {
                     return getNodesInfo(false);
                 case "activeNodes":
                     return getNodesInfo(true);
+                case "nodeTypes":
+                    return getNodeTypes();
             }
         }
 
@@ -57,6 +60,13 @@ public class NodesInfoProcessor implements RequestProcessor {
             }
         }).map(Node::getNodeInfo).collect(Collectors.toList());
         response.put("nodes", nodes);
+        return response;
+    }
+
+    private Response getNodeTypes(){
+        Response response = new Response();
+        response.setStatus(SUCCESS);
+        response.put("nodeTypes", NodeType.getTypes());
         return response;
     }
 

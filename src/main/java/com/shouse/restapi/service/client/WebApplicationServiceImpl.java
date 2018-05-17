@@ -34,8 +34,8 @@ public class WebApplicationServiceImpl implements WebApplicationService {
 
     @Override
     public List<String> getNamesOfMenuItems(String sortType) {
-        if(sortType.equals(ClientMenuSortType.TYPE.getName()))
-            return NodeType.getNames();
+//        if(sortType.equals(ClientMenuSortType.TYPE.getName()))
+//            return NodeType.getNames();
 
         if(sortType.equals(ClientMenuSortType.LOCATION.getName()))
             return NodeLocation.getNames();

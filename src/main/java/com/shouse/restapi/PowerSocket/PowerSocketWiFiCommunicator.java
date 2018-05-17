@@ -49,18 +49,23 @@ public class PowerSocketWiFiCommunicator implements Communicator{
     }
 
     @RequestMapping("")
-    public void receiveRequestFromWiFiPowerSocketNode(
+    public String receiveRequestFromWiFiPowerSocketNode(
             @RequestParam(value = "id") int id,
             @RequestParam(value = "requestId") String requestId,
             @RequestParam(value = "nodeTaskStatus") String nodeTaskStatus,
+            @RequestParam(value = "switched") String switched,
             HttpServletRequest request) {
+        log.info("receiveRequestFromWiFiPowerSocketNode");
+
         nodesIP.put(id, request.getRemoteAddr());
 
         packet = new Packet(id);
         packet.putData("nodeTypeId", String.valueOf(NodeType.POWER_SOCKET.getId()));
         packet.putData(SystemConstants.requestId, requestId);
         packet.putData(SystemConstants.nodeTaskStatus, nodeTaskStatus);
+        packet.putData("switched", switched);
         hasPacket = true;
+        return "got it";
     }
 
     @Override

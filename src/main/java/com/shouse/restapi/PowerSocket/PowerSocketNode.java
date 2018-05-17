@@ -102,5 +102,18 @@ public class PowerSocketNode extends Node {
             }
         }
 
+        if(packet.getData().get(SystemConstants.nodeTaskStatus) == null && packet.getData().get(SystemConstants.nodeTaskStatus) == null){
+            boolean isSwitchedReal;
+            if(packet.getData().get("switched").equals("on"))
+                isSwitchedReal = true;
+            else if(packet.getData().get("switched").equals("off"))
+                isSwitchedReal = true;
+            else {
+                log.error("processPacket. Invalid packet from node. Packet: " + packet);
+                return;
+            }
+
+        }
+
     }
 }

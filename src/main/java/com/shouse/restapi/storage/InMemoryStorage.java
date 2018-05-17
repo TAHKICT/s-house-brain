@@ -25,15 +25,15 @@ public class InMemoryStorage implements NodeStorage {
         List<Node> nodes = new ArrayList<>();
 
         nodes.add(new PowerSocketNode(1, NodeLocation.KITCHEN.getId(),"стиральная машина", communicators.get(0)));
-        nodes.add(new TestNode(2, NodeLocation.KITCHEN.getId(),"фен", communicators.get(0)));
-        nodes.add(new TestNode(3, NodeLocation.KITCHEN.getId(),"возле шкафа", communicators.get(0)));
-        nodes.add(new TestNode(4, NodeLocation.BEDROOM.getId(), "основной", communicators.get(0)));
-        nodes.add(new TestNode(5, NodeLocation.BEDROOM.getId(), "ночной", communicators.get(0)));
-        nodes.add(new TestNode(6, NodeLocation.BEDROOM.getId(),"возле зеркала", communicators.get(0)));
-        nodes.add(new TestNode(7, NodeLocation.BEDROOM.getId(),"температура", communicators.get(0)));
-        nodes.add(new TestNode(8, NodeLocation.BEDROOM.getId(),"влажность", communicators.get(0)));
-        nodes.add(new TestNode(9, NodeLocation.BEDROOM.getId(),"температура", communicators.get(0)));
-        nodes.add(new TestNode(10, NodeLocation.BEDROOM.getId(),"влажность", communicators.get(0)));
+        nodes.add(new PowerSocketNode(2, NodeLocation.KITCHEN.getId(),"фен", communicators.get(0)));
+        nodes.add(new PowerSocketNode(3, NodeLocation.KITCHEN.getId(),"возле шкафа", communicators.get(0)));
+        nodes.add(new PowerSocketNode(4, NodeLocation.BEDROOM.getId(), "основной", communicators.get(0)));
+        nodes.add(new PowerSocketNode(5, NodeLocation.BEDROOM.getId(), "ночной", communicators.get(0)));
+        nodes.add(new PowerSocketNode(6, NodeLocation.BEDROOM.getId(),"возле зеркала", communicators.get(0)));
+        nodes.add(new PowerSocketNode(7, NodeLocation.BEDROOM.getId(),"температура", communicators.get(0)));
+        nodes.add(new PowerSocketNode(8, NodeLocation.BEDROOM.getId(),"влажность", communicators.get(0)));
+        nodes.add(new PowerSocketNode(9, NodeLocation.BEDROOM.getId(),"температура", communicators.get(0)));
+        nodes.add(new PowerSocketNode(10, NodeLocation.BEDROOM.getId(),"влажность", communicators.get(0)));
 
         return nodes;
     }
