@@ -1,7 +1,7 @@
 package com.shouse.restapi.service.client;
 
 import com.shouse.restapi.communicator.service.NodeInfoExtended;
-import shouse.core.Common.NodeType;
+import shouse.core.common.NodeType;
 
 import java.util.List;
 

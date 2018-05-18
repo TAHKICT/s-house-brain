@@ -1,6 +1,7 @@
 package com.shouse.restapi.service;
 
-import shouse.core.Common.NodeType;
+import shouse.core.common.NodeLocation;
+import shouse.core.common.NodeType;
 import shouse.core.api.RequestProcessor;
 import shouse.core.controller.NodeContainer;
 import shouse.core.node.Node;
@@ -38,6 +39,8 @@ public class NodesInfoProcessor implements RequestProcessor {
                     return getNodesInfo(true);
                 case "nodeTypes":
                     return getNodeTypes();
+                case "nodeLocations":
+                    return getNodeLocations();
             }
         }
 
@@ -67,6 +70,13 @@ public class NodesInfoProcessor implements RequestProcessor {
         Response response = new Response();
         response.setStatus(SUCCESS);
         response.put("nodeTypes", NodeType.getTypes());
+        return response;
+    }
+
+    private Response getNodeLocations(){
+        Response response = new Response();
+        response.setStatus(SUCCESS);
+        response.put("nodeLocations", NodeLocation.getLocations());
         return response;
     }
 

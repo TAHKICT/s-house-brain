@@ -3,7 +3,7 @@ package com.shouse.restapi.powerSocket;
 import com.shouse.node.PowerSocket.PowerSocketNode;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import shouse.core.Common.NodeType;
+import shouse.core.common.NodeType;
 import org.springframework.beans.factory.annotation.Autowired;
 import shouse.core.communication.Packet;
 import shouse.core.communication.PacketProcessor;

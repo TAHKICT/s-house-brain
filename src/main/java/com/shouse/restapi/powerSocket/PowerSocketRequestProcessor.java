@@ -1,7 +1,7 @@
 package com.shouse.restapi.powerSocket;
 
 import com.shouse.node.PowerSocket.PowerSocketNode;
-import shouse.core.Common.NodeType;
+import shouse.core.common.NodeType;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;

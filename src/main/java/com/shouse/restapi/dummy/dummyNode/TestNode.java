@@ -1,6 +1,6 @@
 package com.shouse.restapi.dummy.dummyNode;
 
-import shouse.core.Common.NodeType;
+import shouse.core.common.NodeType;
 import shouse.core.communication.Communicator;
 import shouse.core.communication.Packet;
 import shouse.core.node.Node;

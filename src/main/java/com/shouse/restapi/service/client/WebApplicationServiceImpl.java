@@ -9,7 +9,8 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.*;
 import org.springframework.web.client.RestTemplate;
-import shouse.core.Common.NodeType;
+import shouse.core.common.NodeLocation;
+import shouse.core.common.NodeType;
 
 import java.util.List;
 import java.util.stream.Collectors;
