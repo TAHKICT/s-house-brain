@@ -1,5 +1,6 @@
 package com.shouse.restapi.service;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import shouse.core.common.NodeLocation;
 import shouse.core.common.NodeType;
 import shouse.core.api.RequestProcessor;
@@ -23,6 +24,7 @@ public class NodesInfoProcessor implements RequestProcessor {
 
     private NodeContainer storage;
 
+    @Autowired
     public NodesInfoProcessor(NodeContainer storage) {
         this.storage = storage;
     }

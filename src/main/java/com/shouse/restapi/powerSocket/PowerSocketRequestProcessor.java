@@ -29,7 +29,7 @@ public class PowerSocketRequestProcessor implements RequestProcessor {
 
     @Override
     public boolean isApplicable(Request request) {
-        if(request.getBody().getParameter("nodeTypeId").equals(NodeType.POWER_SOCKET.getId()))
+        if(request.getBody().getParameter("nodeTypeId") != null && request.getBody().getParameter("nodeTypeId").equals(NodeType.POWER_SOCKET.getId()))
             return true;
 
         return false;
