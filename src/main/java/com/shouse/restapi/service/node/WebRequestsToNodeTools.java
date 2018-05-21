@@ -1,6 +1,6 @@
 package com.shouse.restapi.service.node;
 
-import com.shouse.restapi.communicator.service.NodeInfoExtended;
+import com.shouse.restapi.communicators.service.NodeInfoExtended;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;

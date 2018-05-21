@@ -1,8 +1,6 @@
 package com.shouse.restapi.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import shouse.core.common.NodeLocation;
-import shouse.core.common.NodeType;
 import shouse.core.api.RequestProcessor;
 import shouse.core.controller.NodeContainer;
 import shouse.core.node.Node;
@@ -71,14 +69,14 @@ public class NodesInfoProcessor implements RequestProcessor {
     private Response getNodeTypes(){
         Response response = new Response();
         response.setStatus(SUCCESS);
-        response.put("nodeTypes", NodeType.getTypes());
+        response.put("nodeTypes", storage.getAllNodes().stream().map(node -> node.getTypeName()).collect(Collectors.toSet()));
         return response;
     }
 
     private Response getNodeLocations(){
         Response response = new Response();
         response.setStatus(SUCCESS);
-        response.put("nodeLocations", NodeLocation.getLocations());
+        response.put("nodeLocations", storage.getAllNodes().stream().map(node -> node.getNodeLocation()).collect(Collectors.toSet()));
         return response;
     }
 

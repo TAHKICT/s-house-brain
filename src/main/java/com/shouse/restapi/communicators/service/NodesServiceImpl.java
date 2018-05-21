@@ -1,4 +1,4 @@
-package com.shouse.restapi.communicator.service;
+package com.shouse.restapi.communicators.service;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -136,7 +136,7 @@ public class NodesServiceImpl implements NodesService, Communicator {
     @PostConstruct
     public void nodeInfoMapSynchronization(){
         nodeInfoMap = nodesStorage.getAllNodes().stream().map(Node::getNodeInfo).collect(
-                toMap(NodeInfo::getId, NodeInfo -> new NodeInfoExtended(NodeInfo.getId(),NodeInfo.getNodeTypeId(),NodeInfo.getNodeLocationId(),NodeInfo.getDescription()))
+                toMap(NodeInfo::getId, NodeInfo -> new NodeInfoExtended(NodeInfo.getId(),NodeInfo.getNodeTypeName(),NodeInfo.getNodeLocation(),NodeInfo.getDescription()))
         );
     }
 

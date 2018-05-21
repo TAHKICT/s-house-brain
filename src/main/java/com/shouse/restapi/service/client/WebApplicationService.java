@@ -1,7 +1,6 @@
 package com.shouse.restapi.service.client;
 
-import com.shouse.restapi.communicator.service.NodeInfoExtended;
-import shouse.core.common.NodeType;
+import com.shouse.restapi.communicators.service.NodeInfoExtended;
 
 import java.util.List;
 
@@ -9,15 +8,11 @@ public interface WebApplicationService {
 
     public List<String> getMenuSortTypes();
 
-    public List<String> getNamesOfMenuItems(String sortType);
-
     public List<NodeInfoExtended> getNodes(ClientRequestGetNodes clientRequestGetNodes);
 
     public List<NodeInfoExtended> getActiveNodes();
 
     public List<NodeInfoExtended> getActiveNodes(ClientRequestGetNodes clientRequestGetNodes);
-
-    public List<NodeInfoExtended> getActiveNodes(NodeType nodeType);
 
     public List<NodeInfoExtended> getAllNodes();
 

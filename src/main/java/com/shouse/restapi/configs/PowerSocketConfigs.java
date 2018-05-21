@@ -1,5 +1,8 @@
-package com.shouse.restapi.powerSocket;
+package com.shouse.restapi.configs;
 
+import com.shouse.node.powerSocket.PowerSocketPacketProcessor;
+import com.shouse.node.powerSocket.PowerSocketRequestProcessor;
+import com.shouse.restapi.communicators.PowerSocketWiFiCommunicator;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.client.RestTemplate;

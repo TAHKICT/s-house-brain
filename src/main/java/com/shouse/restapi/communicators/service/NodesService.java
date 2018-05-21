@@ -1,4 +1,4 @@
-package com.shouse.restapi.communicator.service;
+package com.shouse.restapi.communicators.service;
 
 import shouse.core.communication.Packet;
 

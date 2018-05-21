@@ -1,4 +1,4 @@
-package com.shouse.restapi.communicator.controllers;
+package com.shouse.restapi.communicators.controllers;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -6,7 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-import com.shouse.restapi.communicator.service.NodesService;
+import com.shouse.restapi.communicators.service.NodesService;
 import shouse.core.communication.Packet;
 
 import javax.servlet.http.HttpServletRequest;
