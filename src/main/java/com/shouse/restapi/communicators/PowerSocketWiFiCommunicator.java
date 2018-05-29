@@ -3,7 +3,6 @@ package com.shouse.restapi.communicators;
 import com.shouse.node.powerSocket.PowerSocketNode;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -26,14 +25,13 @@ import static java.util.stream.Collectors.toMap;
 @RestController
 @RequestMapping("/core-rest-api/wifi-communicator/power-socket")
 public class PowerSocketWiFiCommunicator implements Communicator{
-    private final Logger log = LoggerFactory.getLogger(this.getClass());
+    private final Logger LOGGER = LoggerFactory.getLogger(this.getClass());
 
     private RestTemplate restTemplate;
     private Packet packet;
     private boolean hasPacket;
-    private Map nodesIP = new HashMap<Integer,String >();
+    private Map nodesIP = new HashMap<Integer,String>();
 
-    @Autowired
     public PowerSocketWiFiCommunicator(RestTemplate restTemplate) {
         this.restTemplate = restTemplate;
     }
@@ -54,9 +52,13 @@ public class PowerSocketWiFiCommunicator implements Communicator{
             @RequestParam(value = "nodeTaskStatus") String nodeTaskStatus,
             @RequestParam(value = "switched") String switched,
             HttpServletRequest request) {
-        log.info("receiveRequestFromWiFiPowerSocketNode");
+        LOGGER.info("method: ".concat(Thread.currentThread().getStackTrace()[1].getMethodName()));
 
-        nodesIP.put(id, request.getRemoteAddr());
+        if (!request.getRemoteAddr().contains("0:0:0:0")) {
+            nodesIP.put(id, request.getRemoteAddr());
+        }else {
+            LOGGER.info("Received request from fake node (developer mode probably).");
+        }
 
         packet = new Packet(id);
         packet.putData("nodeTypeName", String.valueOf(PowerSocketNode.class.getSimpleName()));
@@ -69,10 +71,16 @@ public class PowerSocketWiFiCommunicator implements Communicator{
 
     @Override
     public void sendPacket(Packet packet) {
-        UriComponentsBuilder url = UriComponentsBuilder.fromHttpUrl("http://" + nodesIP.get(packet.getNodeId()) + "/command-from-server")
-                .queryParams(getDataFromPacket(packet));
-        log.info("sendRequest. url: " + url.toUriString());
-        restTemplate.getForEntity(url.toUriString(), String.class);
+        LOGGER.info("method: ".concat(Thread.currentThread().getStackTrace()[1].getMethodName()));
+
+        if(nodesIP.get(packet.getNodeId()) != null) {
+            UriComponentsBuilder url = UriComponentsBuilder.fromHttpUrl("http://" + nodesIP.get(packet.getNodeId()) + "/command-from-server")
+                    .queryParams(getDataFromPacket(packet));
+            LOGGER.info("sendRequest. url: " + url.toUriString());
+            restTemplate.getForEntity(url.toUriString(), String.class);
+        }else{
+            LOGGER.error("Node's IP is not exists.");
+        }
     }
 
     @Override

@@ -26,6 +26,11 @@ public class WebApplicationEntryPoint {
         this.restTemplate = restTemplate;
     }
 
+    /**
+     * One entry point for every request.
+     * @param webRequest
+     * @return
+     */
     @RequestMapping(value = "/entry-point", method = RequestMethod.POST)
     public Response apiEntryPoint(@RequestBody WebRequest webRequest){
         Request request = createRequest(webRequest);
@@ -46,58 +51,4 @@ public class WebApplicationEntryPoint {
         request.setBody(requestFromClient.getBody());
         return request;
     }
-
-//    /**
-//     * Returns sorting variants for menu.
-//     * @return
-//     */
-//    @RequestMapping("/menu/get-sort-types")
-//    public List<String> getMenuSortTypes(HttpServletResponse response){
-//        response.setHeader("Access-Control-Allow-Origin", "*");
-//        return webApplicationService.getMenuSortTypes();
-//    }
-
-    /**
-     *  Returns names of menu items by sorting type.
-     * @param sortType
-     * @param response
-     * @return
-     */
-//    @RequestMapping("/menu/get-items")
-//    public List<String> getNamesOfMenuItems(@RequestParam(value = "sortedBy") String sortType, HttpServletResponse response){
-//        response.setHeader("Access-Control-Allow-Origin", "*");
-//        return webApplicationService.getNamesOfMenuItems(sortType);
-//    }
-
-    /**
-     *  Returns list of nodes by criterias.
-     * @param clientRequestGetNodes
-     * @param response
-     * @return
-     */
-//    @RequestMapping("/content/get-nodes")
-//    public List<NodeInfoMessage> getNodes(@RequestBody ClientRequestGetNodes clientRequestGetNodes,HttpServletResponse response) {
-//        response.setHeader("Access-Control-Allow-Origin", "*");
-//        return webApplicationService.getActiveNodes(clientRequestGetNodes).stream().map(nodeInfoExtended -> nodeInfoExtended.getNodeInfoMessage()).collect(Collectors.toList());
-//    }
-
-//    /**
-//     *  Handle request from web client about changing node params.
-//     * @param nodeParamChangeEvent
-//     * @return
-//     */
-//    @RequestMapping("/content/node-parameter-change")
-//    public ResponseForWebClient handleNodeParameterChange(@RequestBody NodeParamChangeEvent nodeParamChangeEvent) {
-//        log.info("WebApplicationEntryPoint. handleRequestFromWebApplication. :" + nodeParamChangeEvent);
-//        return webApplicationService.handleRequestFromClient(nodeParamChangeEvent);
-//    }
-
-//    @RequestMapping("/get-active-nodes/{nodeTypeDescription}")
-//    public List<NodeInfoMessage> getActiveNodesByType(
-//            @PathVariable(value="nodeTypeDescription") String nodeTypeDescription,
-//            HttpServletResponse response) {
-//        response.setHeader("Access-Control-Allow-Origin", "*");
-//        log.info("WebApplicationEntryPoint. getActiveNodesByType. nodeTypeDescription:" + nodeTypeDescription);
-//        return webApplicationService.getActiveNodes(NodeType.getNodeTypeByDescription(nodeTypeDescription)).stream().map(nodeInfoExtended -> nodeInfoExtended.getNodeInfoMessage()).collect(Collectors.toList());
-//    }
 }
