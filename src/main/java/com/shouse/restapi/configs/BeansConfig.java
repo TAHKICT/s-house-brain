@@ -10,6 +10,8 @@ import com.shouse.restapi.communicators.service.NodesService;
 import com.shouse.restapi.communicators.service.NodesServiceImpl;
 import com.shouse.restapi.storage.InMemoryStorage;
 import org.springframework.web.client.RestTemplate;
+import shouse.core.SmartHouseContext;
+import shouse.core.SmartHouseInitializer;
 import shouse.core.api.Notifier;
 import shouse.core.api.RequestDispatcher;
 import shouse.core.api.RequestDispatcherImpl;
@@ -19,6 +21,7 @@ import shouse.core.communication.PacketProcessor;
 import shouse.core.controller.Controller;
 import shouse.core.controller.ControllerImpl;
 import shouse.core.controller.NodeContainer;
+import shouse.core.loader.NodeLoader;
 import shouse.core.node.storage.NodeStorage;
 
 import java.util.List;
@@ -33,23 +36,34 @@ public class BeansConfig {
     }
 
     @Bean
-    public NodeStorage nodeStorage(List<Communicator> communicators, List<Notifier> notifiers){
-        return new InMemoryStorage(communicators, notifiers);
+    public NodeStorage nodeStorage(){
+        return new InMemoryStorage();
     }
 
     @Bean
-    public NodeContainer nodeContainer(NodeStorage nodeStorage){
-        return new NodeContainer(nodeStorage);
+    public SmartHouseContext smartHouseContext(NodeStorage nodeStorage,
+                                               Set<Communicator> communicators,
+                                               Set<Notifier> notifiers){
+        return new SmartHouseInitializer()
+                .communicators(communicators)
+                .notifiers(notifiers)
+                .nodeStorage(nodeStorage)
+                .initialize();
     }
 
     @Bean
-    public Controller smartController(Set<Communicator> communicators, Set<PacketProcessor> packetProcessors){
-        return new ControllerImpl(communicators, packetProcessors);
+    public NodeContainer nodeContainer(SmartHouseContext context){
+        return context.getNodeContainer();
     }
 
     @Bean
-    public RequestDispatcher requestDispatcher(Set<RequestProcessor> processors){
-        return new RequestDispatcherImpl(processors);
+    public Controller smartController(SmartHouseContext context){
+        return context.getController();
+    }
+
+    @Bean
+    public RequestDispatcher requestDispatcher(SmartHouseContext context){
+        return context.getDispatcher();
     }
 
     @Bean
@@ -58,7 +72,9 @@ public class BeansConfig {
     }
 
     @Bean
-    public NodesInfoProcessor nodesInfoProcessor(NodeContainer container){
-        return new NodesInfoProcessor(container);
+    public NodesInfoProcessor nodesInfoProcessor(SmartHouseContext context){
+        NodesInfoProcessor nodesInfoProcessor = new NodesInfoProcessor(context.getNodeContainer());
+        context.addRequestProcessor(nodesInfoProcessor);
+        return nodesInfoProcessor;
     }
 }

@@ -1,6 +1,6 @@
 package com.shouse.restapi.communicators;
 
-import com.shouse.node.powerSocket.PowerSocketNode;
+//import com.shouse.node.powerSocket.PowerSocketNode;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.util.LinkedMultiValueMap;
@@ -61,7 +61,7 @@ public class PowerSocketWiFiCommunicator implements Communicator{
         }
 
         packet = new Packet(id);
-        packet.putData("nodeTypeName", String.valueOf(PowerSocketNode.class.getSimpleName()));
+        //packet.putData("nodeTypeName", String.valueOf(PowerSocketNode.class.getSimpleName()));
         packet.putData(SystemConstants.requestId, requestId);
         packet.putData(SystemConstants.nodeTaskStatus, nodeTaskStatus);
         packet.putData("switched", switched);
