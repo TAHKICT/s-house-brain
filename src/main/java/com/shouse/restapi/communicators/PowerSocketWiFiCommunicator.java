@@ -50,7 +50,7 @@ public class PowerSocketWiFiCommunicator implements Communicator{
             @RequestParam(value = "id") int id,
             @RequestParam(value = "requestId") String requestId,
             @RequestParam(value = "nodeTaskStatus") String nodeTaskStatus,
-            @RequestParam(value = "switched") String switched,
+            @RequestParam(value = "switched") boolean switched,
             HttpServletRequest request) {
         LOGGER.info("method: ".concat(Thread.currentThread().getStackTrace()[1].getMethodName()));
 
@@ -64,7 +64,26 @@ public class PowerSocketWiFiCommunicator implements Communicator{
         //packet.putData("nodeTypeName", String.valueOf(PowerSocketNode.class.getSimpleName()));
         packet.putData(SystemConstants.requestId, requestId);
         packet.putData(SystemConstants.nodeTaskStatus, nodeTaskStatus);
-        packet.putData("switched", switched);
+        packet.putData("switched", Boolean.toString(switched));
+        hasPacket = true;
+        return "got it";
+
+    }
+
+    @RequestMapping("/alive")
+    public String receiveAliveRequestFromWiFiPowerSocketNode(
+            @RequestParam(value = "id") int id,
+            HttpServletRequest request) {
+        LOGGER.info("method: ".concat(Thread.currentThread().getStackTrace()[1].getMethodName()));
+
+        if (!request.getRemoteAddr().contains("0:0:0:0")) {
+            nodesIP.put(id, request.getRemoteAddr());
+        }else {
+            LOGGER.info("Received request from fake node (developer mode probably).");
+        }
+
+        packet = new Packet(id);
+        packet.putData("nodeTypeName", String.valueOf(PowerSocketNode.class.getSimpleName()));
         hasPacket = true;
         return "got it";
     }
