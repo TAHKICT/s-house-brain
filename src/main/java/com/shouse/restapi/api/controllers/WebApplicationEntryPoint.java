@@ -47,7 +47,6 @@ public class WebApplicationEntryPoint {
 
     private Request createRequest(WebRequest requestFromClient) {
         Request request = new Request();
-        request.setNodeId(requestFromClient.getNodeId());
         request.setBody(requestFromClient.getBody());
         return request;
     }

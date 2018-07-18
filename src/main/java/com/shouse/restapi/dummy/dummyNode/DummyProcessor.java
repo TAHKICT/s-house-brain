@@ -1,6 +1,7 @@
 package com.shouse.restapi.dummy.dummyNode;
 
 import shouse.core.api.RequestProcessor;
+import shouse.core.common.SystemConstants;
 import shouse.core.node.request.Request;
 import shouse.core.node.response.Response;
 
@@ -17,6 +18,6 @@ public class DummyProcessor implements RequestProcessor {
 
     @Override
     public boolean isApplicable(Request request) {
-        return request.getNodeId() == 1;
+        return request.getBody().getParameter(SystemConstants.nodeId) == "1";
     }
 }
