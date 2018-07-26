@@ -4,32 +4,36 @@ import com.shouse.restapi.service.node.*;
 import shouse.core.node.NodeInfo;
 import shouse.core.node.NodeLocation;
 
-public class NodeInfoExtended extends NodeInfo {
+public class NodeInfoExtended {
 
+    private int nodeId;
     private String ipAddress;
     private String networkSSID;
     private NodeStatus nodeStatus;
     private String value;
 
-    public NodeInfoExtended(int id, String nodeTypeId, NodeLocation nodeLocationId, String description) {
-        super(id, nodeTypeId, nodeLocationId, description);
-    }
-
-    public NodeInfoExtended(NodeInfo nodeInfo, String ipAddress, String networkSSID, NodeStatus nodeStatus, String value){
-        super(nodeInfo.getId(), nodeInfo.getNodeTypeName(), nodeInfo.getNodeLocation(), nodeInfo.getDescription());
+    public NodeInfoExtended(int nodeId, String ipAddress, NodeStatus nodeStatus) {
+        this.nodeId = nodeId;
         this.ipAddress = ipAddress;
-        this.networkSSID = networkSSID;
         this.nodeStatus = nodeStatus;
-        this.value = value;
     }
 
-//    public NodeInfoMessage getNodeInfoMessage(){
+    //    public NodeInfoMessage getNodeInfoMessage(){
 //        return new NodeInfoMessage(getId(),
 //                NodeType.getNodeTypeById(getNodeTypeName()).getName(),
 //                NodeLocation.getNodeLocationById(getNodeLocation()).getName(),
 //                new NodeInfoMessageControl("checkbox", value),
 //                getDescription());
 //    }
+
+
+    public int getNodeId() {
+        return nodeId;
+    }
+
+    public void setNodeId(int nodeId) {
+        this.nodeId = nodeId;
+    }
 
     public String getIpAddress() {
         return ipAddress;

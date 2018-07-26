@@ -4,7 +4,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
-import shouse.core.node.NodeInfo;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 import com.shouse.restapi.service.Messages;
 import com.shouse.restapi.service.node.NodeStatus;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,10 +14,9 @@ import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
 import shouse.core.communication.Communicator;
 import shouse.core.communication.Packet;
-import shouse.core.controller.NodeContainer;
-import shouse.core.node.Node;
+import sun.misc.resources.Messages_sv;
 
-import javax.annotation.PostConstruct;
+import javax.servlet.http.HttpServletRequest;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -24,57 +25,42 @@ import java.util.concurrent.ConcurrentLinkedQueue;
 
 import static java.util.stream.Collectors.toMap;
 
-public class NodesServiceImpl implements NodesService, Communicator {
+@RestController
+@RequestMapping("/core-rest-api/communicator")
+public class HttpNodeCommunicator implements Communicator {
 
-    private final Logger log = LoggerFactory.getLogger(this.getClass());
+    private final Logger LOGGER = LoggerFactory.getLogger(this.getClass());
 
     private RestTemplate restTemplate;
-    private NodeContainer nodesStorage;
-    private static Map<Integer, NodeInfoExtended> nodeInfoMap;
+    private Map<Integer, NodeInfoExtended> nodeInfoMap;
 
     private ConcurrentLinkedQueue<Packet> packets = new ConcurrentLinkedQueue<>();
 
     @Autowired
-    public NodesServiceImpl(RestTemplate restTemplate, NodeContainer nodesStorage) {
+    public HttpNodeCommunicator(RestTemplate restTemplate) {
         this.restTemplate = restTemplate;
-        this.nodesStorage = nodesStorage;
         this.nodeInfoMap = new LinkedHashMap<>();
     }
 
-    @Override
-    public void handleNode(Packet packet) {
+    @RequestMapping("")
+    public String handleNode(@RequestParam Map<String, String> params,
+                           HttpServletRequest request) {
+
+        LOGGER.info("method: ".concat(Thread.currentThread().getStackTrace()[1].getMethodName()));
+
+        if (!request.getRemoteAddr().contains("0:0:0:0")) {
+            handleAliveRequestFromNode(params.get("id"), request.getRemoteAddr());
+        }else {
+            LOGGER.info("Received request from fake node (developer mode probably).");
+        }
+
+        Packet packet = new Packet(Integer.parseInt(params.get("id")));
+        packet.setData(params);
         packets.add(packet);
+        return "got it";
     }
 
-    //Probably remove
-    @Override
-    public String handleNode(String nodeId, String value) {
-        if(nodeId == null)
-            return Messages.nodeIdFormatIsNull;
-
-        if(!validNodeId(nodeId))
-            return Messages.nodeIdFormatIsNotValid;
-
-        int id = Integer.valueOf(nodeId);
-
-        if (!nodeInfoMap.containsKey(id))
-            return Messages.nodeNotFound;
-        else if(nodeInfoMap.get(id).getNodeStatus().getStatusCode() == NodeStatus.SWITCHED_OFF.getStatusCode())
-            return Messages.nodeIsNotActive;
-
-        nodeInfoMap.get(id).setValue(value);
-        // webApplicationService.sendNodeChangeRequestToClient(id,value);
-
-        return Messages.nodeHandledSuccessfully;
-    }
-
-    //TODO: refactor in a way to use NodeContainer to get latest data
-    public Map<Integer, NodeInfoExtended> getNodesMap() {
-        return nodeInfoMap;
-    }
-
-    @Override
-    public String handleAliveRequestFromNode(String nodeId, String ipAddress) {
+    private String handleAliveRequestFromNode(String nodeId, String ipAddress) {
         if(nodeId == null)
             return Messages.nodeIdFormatIsNull;
 
@@ -86,12 +72,13 @@ public class NodesServiceImpl implements NodesService, Communicator {
 
         int id = Integer.valueOf(nodeId);
 
-        if(nodeInfoMap.containsKey(id)) {
-            nodeInfoMap.get(id).setIpAddress(ipAddress);
-            nodeInfoMap.get(id).setNodeStatus(NodeStatus.ACTIVE);
-            return Messages.nodeRegistered;
-        } else
-            return Messages.nodeNotFound;
+        nodeInfoMap.put(id, createNodeInfo(ipAddress, id));
+        return Messages.nodeRegistered;
+
+    }
+
+    private NodeInfoExtended createNodeInfo(String ipAddress, int id) {
+        return new NodeInfoExtended(id, ipAddress, NodeStatus.ACTIVE);
     }
 
     private static boolean validNodeId(String nodeId){
@@ -130,32 +117,14 @@ public class NodesServiceImpl implements NodesService, Communicator {
         }
     }
 
-    /**
-     * When system starts, nodes map should be token from the storage.
-     */
-    @PostConstruct
-    public void nodeInfoMapSynchronization(){
-        nodeInfoMap = nodesStorage.getAllNodes().stream().map(Node::getNodeInfo).collect(
-                toMap(NodeInfo::getId, NodeInfo -> new NodeInfoExtended(NodeInfo.getId(),NodeInfo.getNodeTypeName(),NodeInfo.getNodeLocation(),NodeInfo.getDescription()))
-        );
-    }
-
     @Override
     public void sendPacket(Packet packet) {
         String ip = getNodeIp(packet.getNodeId());
         UriComponentsBuilder url = UriComponentsBuilder.fromHttpUrl("http://" + ip + "/command-from-server")
                 .queryParams(getDataFromPacket(packet));
 
-        log.info("sendRequest. url: " + url.toUriString());
-
+        LOGGER.info("sendRequest. url: " + url.toUriString());
         restTemplate.getForEntity(url.toUriString(), String.class);
-
-//        String response = responseEntity.getBody().toString();
-//        log.info("sendRequest. " +
-//                "nodeId:" + node.getId() + ", request:" + request + ". " +
-//                "Response: " + response);
-//
-//        return response;
     }
 
     private MultiValueMap<String, String> getDataFromPacket(Packet packet) {
