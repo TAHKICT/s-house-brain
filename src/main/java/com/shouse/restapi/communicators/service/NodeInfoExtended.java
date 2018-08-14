@@ -18,15 +18,6 @@ public class NodeInfoExtended {
         this.nodeStatus = nodeStatus;
     }
 
-    //    public NodeInfoMessage getNodeInfoMessage(){
-//        return new NodeInfoMessage(getId(),
-//                NodeType.getNodeTypeById(getNodeTypeName()).getName(),
-//                NodeLocation.getNodeLocationById(getNodeLocation()).getName(),
-//                new NodeInfoMessageControl("checkbox", value),
-//                getDescription());
-//    }
-
-
     public int getNodeId() {
         return nodeId;
     }

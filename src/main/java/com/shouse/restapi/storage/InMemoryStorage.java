@@ -1,6 +1,5 @@
 package com.shouse.restapi.storage;
 
-//import com.shouse.node.powerSocket.PowerSocketNode;
 import org.springframework.stereotype.Component;
 import shouse.core.api.Notifier;
 import shouse.core.communication.Communicator;
