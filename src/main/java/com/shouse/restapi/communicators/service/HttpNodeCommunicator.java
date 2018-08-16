@@ -14,7 +14,6 @@ import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
 import shouse.core.communication.Communicator;
 import shouse.core.communication.Packet;
-import sun.misc.resources.Messages_sv;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.ArrayList;
@@ -25,6 +24,9 @@ import java.util.concurrent.ConcurrentLinkedQueue;
 
 import static java.util.stream.Collectors.toMap;
 
+/**
+ * Example of alive request from node: http://localhost:8181/core-rest-api/communicator?id=1&nodeTypeName=PowerSocketNode
+ */
 @RestController
 @RequestMapping("/core-rest-api/communicator")
 public class HttpNodeCommunicator implements Communicator {
