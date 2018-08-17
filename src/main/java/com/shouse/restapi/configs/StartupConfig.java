@@ -1,5 +1,6 @@
 package com.shouse.restapi.configs;
 
+import com.shouse.restapi.communication.NodesAliveChecking;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -21,6 +22,11 @@ public class StartupConfig {
     @Bean
     public CommandLineRunner controllerRunner(TaskExecutor executor, Controller controller){
         return args -> executor.execute(controller);
+    }
+
+    @Bean
+    public CommandLineRunner nodesAliveCheckingRunner(TaskExecutor executor, NodesAliveChecking nodesAliveChecking){
+        return args -> executor.execute(nodesAliveChecking);
     }
 
 }

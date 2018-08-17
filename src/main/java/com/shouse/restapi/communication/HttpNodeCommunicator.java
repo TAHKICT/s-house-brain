@@ -1,5 +1,6 @@
-package com.shouse.restapi.communicators.service;
+package com.shouse.restapi.communication;
 
+import com.shouse.restapi.api.entities.NodeInfoExtended;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.util.LinkedMultiValueMap;

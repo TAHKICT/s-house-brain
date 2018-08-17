@@ -1,5 +1,6 @@
-package com.shouse.restapi.api.controllers;
+package com.shouse.restapi.api;
 
+import com.shouse.restapi.api.entities.WebRequest;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.web.bind.annotation.*;

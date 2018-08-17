@@ -1,8 +1,6 @@
-package com.shouse.restapi.communicators.service;
+package com.shouse.restapi.api.entities;
 
 import com.shouse.restapi.service.node.*;
-import shouse.core.node.NodeInfo;
-import shouse.core.node.NodeLocation;
 
 public class NodeInfoExtended {
 

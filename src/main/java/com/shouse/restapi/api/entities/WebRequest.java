@@ -1,4 +1,4 @@
-package com.shouse.restapi.api.controllers;
+package com.shouse.restapi.api.entities;
 
 import shouse.core.node.request.RequestBody;
 

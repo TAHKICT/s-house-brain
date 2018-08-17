@@ -18,7 +18,6 @@ public class InMemoryStorage implements NodeStorage {
 
     @Override
     public List<Node> loadNodes(Map<String, NodeFactory> blueprints) {
-        NodeLocation kitchen = new NodeLocation(0, "Kitchen");
 
         NodeFactory nodeFactory = blueprints.get("powerSocket");
         Node node = nodeFactory.createNode(new HashMap<>());
