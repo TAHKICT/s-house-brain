@@ -42,11 +42,6 @@ public class BeansConfig {
     }
 
     @Bean
-    public Controller smartController(SmartHouseContext context){
-        return context.getController();
-    }
-
-    @Bean
     public RequestDispatcher requestDispatcher(SmartHouseContext context){
         return context.getDispatcher();
     }
