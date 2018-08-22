@@ -11,7 +11,7 @@ import java.util.List;
 import java.util.Map;
 
 @Component
-public class InMemoryStorage implements NodeStorage {
+public class NodesStorage implements NodeStorage {
 
     @Override
     public List<Node> loadNodes(Map<String, NodeFactory> blueprints) {

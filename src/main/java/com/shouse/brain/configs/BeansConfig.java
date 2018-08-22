@@ -1,7 +1,7 @@
 package com.shouse.brain.configs;
 
 import com.shouse.brain.service.NodesInfoProcessor;
-import com.shouse.brain.storage.InMemoryStorage;
+import com.shouse.brain.storage.NodesStorage;
 import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -21,7 +21,7 @@ public class BeansConfig {
 
     @Bean
     public NodeStorage nodeStorage(){
-        return new InMemoryStorage();
+        return new NodesStorage();
     }
 
     @Bean
