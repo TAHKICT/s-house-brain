@@ -30,7 +30,7 @@ import static java.util.stream.Collectors.toMap;
  */
 @RestController
 @RequestMapping("/core-rest-api/communicator")
-public class HttpNodCommunicator implements NodeCommunicator {
+public class HttpNodeCommunicator implements NodeCommunicator {
 
     private final Logger LOGGER = LoggerFactory.getLogger(this.getClass());
 
@@ -40,7 +40,7 @@ public class HttpNodCommunicator implements NodeCommunicator {
     private ConcurrentLinkedQueue<Packet> packets = new ConcurrentLinkedQueue<>();
 
     @Autowired
-    public HttpNodCommunicator(RestTemplate restTemplate) {
+    public HttpNodeCommunicator(RestTemplate restTemplate) {
         this.restTemplate = restTemplate;
         this.nodeInfoMap = new LinkedHashMap<>();
     }
