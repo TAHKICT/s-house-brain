@@ -17,7 +17,7 @@ public class NodesStorage implements NodeStorage {
     public List<Node> loadNodes(Map<String, NodeFactory> blueprints) {
 
         NodeFactory nodeFactory = blueprints.get("powerSocket");
-        Node node = nodeFactory.createNode(new HashMap<>());
+        Node node = nodeFactory.createNode();
 
         List<Node> nodes = new ArrayList<>();
         nodes.add(node);

@@ -1,12 +1,12 @@
 package com.shouse.brain.dummy.communicator;
 
-import shouse.core.communication.Communicator;
+import shouse.core.communication.NodeCommunicator;
 import shouse.core.communication.Packet;
 
 /**
  * Created by Maks on 11.05.2018.
  */
-public class DummyCommunicator implements Communicator {
+public class DummyNodeCommunicator implements NodeCommunicator {
     @Override
     public void sendPacket(Packet packet) {
 

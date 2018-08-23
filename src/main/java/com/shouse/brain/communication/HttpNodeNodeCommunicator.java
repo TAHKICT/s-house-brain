@@ -13,7 +13,7 @@ import com.shouse.brain.service.node.NodeStatus;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
-import shouse.core.communication.Communicator;
+import shouse.core.communication.NodeCommunicator;
 import shouse.core.communication.Packet;
 
 import javax.servlet.http.HttpServletRequest;
@@ -30,7 +30,7 @@ import static java.util.stream.Collectors.toMap;
  */
 @RestController
 @RequestMapping("/core-rest-api/communicator")
-public class HttpNodeCommunicator implements Communicator {
+public class HttpNodeNodeCommunicator implements NodeCommunicator {
 
     private final Logger LOGGER = LoggerFactory.getLogger(this.getClass());
 
@@ -40,7 +40,7 @@ public class HttpNodeCommunicator implements Communicator {
     private ConcurrentLinkedQueue<Packet> packets = new ConcurrentLinkedQueue<>();
 
     @Autowired
-    public HttpNodeCommunicator(RestTemplate restTemplate) {
+    public HttpNodeNodeCommunicator(RestTemplate restTemplate) {
         this.restTemplate = restTemplate;
         this.nodeInfoMap = new LinkedHashMap<>();
     }
@@ -123,6 +123,12 @@ public class HttpNodeCommunicator implements Communicator {
     @Override
     public void sendPacket(Packet packet) {
         String ip = getNodeIp(packet.getNodeId());
+
+        if (ip.equals("")){
+            LOGGER.warn("Node id was not found. Packet will not send.");
+            return;
+        }
+
         UriComponentsBuilder url = UriComponentsBuilder.fromHttpUrl("http://" + ip + "/command-from-server")
                 .queryParams(getDataFromPacket(packet));
 
@@ -140,8 +146,12 @@ public class HttpNodeCommunicator implements Communicator {
     }
 
     private String getNodeIp(int nodeId) {
-        NodeInfoExtended nodeInfo = nodeInfoMap.get(nodeId);
-        return nodeInfo.getIpAddress();
+        try {
+            NodeInfoExtended nodeInfo = nodeInfoMap.get(nodeId);
+            return nodeInfo.getIpAddress();
+        }catch (NullPointerException ex){
+            return "";
+        }
     }
 
     @Override

@@ -10,7 +10,7 @@ import shouse.core.SmartHouseContext;
 import shouse.core.SmartHouseInitializer;
 import shouse.core.api.Notifier;
 import shouse.core.api.RequestDispatcher;
-import shouse.core.communication.Communicator;
+import shouse.core.communication.NodeCommunicator;
 import shouse.core.controller.NodeContainer;
 import shouse.core.node.storage.NodeStorage;
 
@@ -26,10 +26,10 @@ public class BeansConfig {
 
     @Bean
     public SmartHouseContext smartHouseContext(NodeStorage nodeStorage,
-                                               Set<Communicator> communicators,
+                                               Set<NodeCommunicator> nodeCommunicators,
                                                Set<Notifier> notifiers){
         return new SmartHouseInitializer()
-                .communicators(communicators)
+                .communicators(nodeCommunicators)
                 .notifiers(notifiers)
                 .nodeStorage(nodeStorage)
                 .initialize();

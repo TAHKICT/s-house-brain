@@ -1,6 +1,6 @@
 //package com.shouse.restapi.dummy.dummyNode;
 //
-//import shouse.core.communication.Communicator;
+//import shouse.core.communication.NodeCommunicator;
 //import shouse.core.communication.Packet;
 //import shouse.core.node.Node;
 //import shouse.core.node.NodeInfo;
@@ -13,11 +13,11 @@
 // */
 //public class TestNode extends Node {
 //
-//    private Communicator communicator;
+//    private NodeCommunicator communicator;
 //    private NodeLocation nodeLocationId;
 //    private String description;
 //
-//    public TestNode(int id, NodeLocation nodeLocationId, String description, Communicator communicator) {
+//    public TestNode(int id, NodeLocation nodeLocationId, String description, NodeCommunicator communicator) {
 //        super(id, NodeType.LIGHT.getId(), false);
 //        this.communicator = communicator;
 //        this.nodeLocationId = nodeLocationId;
