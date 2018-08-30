@@ -30,7 +30,7 @@
 //    }
 //
 //    @Override
-//    public Response process(Request request) {
+//    public Response processRequest(Request request) {
 //        if (request.getBody().getParameter("aaaa") != null){
 //            communicator.sendPacket(createDeletePacket(request));
 //            return new Response();
