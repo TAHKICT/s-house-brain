@@ -19,8 +19,12 @@ public class NodesStorage implements NodeStorage {
         NodeFactory nodeFactory = blueprints.get("powerSocket");
         Node node = nodeFactory.createNode();
 
+        NodeFactory lightSwitchNodeFactory = blueprints.get("lightSwitch");
+        Node node1 = nodeFactory.createNode();
+
         List<Node> nodes = new ArrayList<>();
         nodes.add(node);
+        nodes.add(node1);
 
 //        nodes.add(new PowerSocketNode(1, kitchen,"стиральная машина", communicators.get(0),notifiers));
 //        nodes.add(new PowerSocketNode(2, kitchen,"фен", communicators.get(0),notifiers));
