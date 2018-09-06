@@ -16,15 +16,15 @@ public class NodesStorage implements NodeStorage {
     @Override
     public List<Node> loadNodes(Map<String, NodeFactory> blueprints) {
 
-        NodeFactory nodeFactory = blueprints.get("powerSocket");
-        Node node = nodeFactory.createNode();
+        NodeFactory powerSocketNodeFactory = blueprints.get("powerSocket");
+        Node powerSocketNode = powerSocketNodeFactory.createNode();
 
         NodeFactory lightSwitchNodeFactory = blueprints.get("lightSwitch");
-        Node node1 = nodeFactory.createNode();
+        Node lightSwitchNode = lightSwitchNodeFactory.createNode();
 
         List<Node> nodes = new ArrayList<>();
-        nodes.add(node);
-        nodes.add(node1);
+        nodes.add(powerSocketNode);
+        nodes.add(lightSwitchNode);
 
 //        nodes.add(new PowerSocketNode(1, kitchen,"стиральная машина", communicators.get(0),notifiers));
 //        nodes.add(new PowerSocketNode(2, kitchen,"фен", communicators.get(0),notifiers));
