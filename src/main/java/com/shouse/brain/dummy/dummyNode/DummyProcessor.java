@@ -18,6 +18,6 @@ public class DummyProcessor implements RequestProcessor {
 
     @Override
     public boolean isApplicable(Request request) {
-        return request.getBody().getParameter(SystemConstants.nodeId) == "1";
+        return request.getBody().getParameter(SystemConstants.nodeId) != null;
     }
 }
